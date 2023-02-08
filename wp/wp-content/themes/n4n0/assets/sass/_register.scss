@@ -1,0 +1,223 @@
+#page-register{
+    padding-top: 3rem;
+    padding-bottom: 2rem;
+  }
+  
+  #register{
+  
+    @extend .anim;
+    .fieldset-wrap{
+      overflow: hidden;
+      padding-bottom: 20px;
+    }
+    fieldset{
+      border:0;
+      border-left: 2px solid $bYellow;
+      width: 48%;
+      @extend .anim;
+      float: left;
+      margin: 0;
+  
+      &#user-company{
+        margin-left: 3%;
+        opacity: 1;
+        @extend .anim;
+        visibility: visible;
+  
+        &.off{
+          visibility: hidden;
+          position: absolute;
+          z-index: -1;
+          @extend .anim;
+          
+          opacity: 0;
+        }
+      }
+  
+      @media only screen and (max-width: 766px){
+        float: none;
+        width: 100%;
+  
+        &#user-company{
+          margin-left: 0;
+          margin-top: 20px;
+        }
+      }
+    }
+    .field-spacer{
+      padding: 10px 5px 5px;
+      border-bottom: 1px solid $bYellow;
+    }
+    .field{
+      padding: 5px;
+      @extend .anim;
+      label,input{
+        display: block;
+        width: 100%;
+        @extend .anim;
+      }
+      label{
+        @extend .anim;
+        font-size: 13px;
+        padding-bottom: 3px;
+        position: relative;
+        .err{
+          display: block;
+          visibility: hidden;
+          opacity: 0;
+          position: absolute;
+          bottom:0;
+          right:0;
+          background-color: #f44;
+          color: #fff;
+          padding: 3px 5px 2px;
+          font-style: italic;
+          transform: translateX(10%);
+          font-family: sans-serif;
+          font-weight: bold;
+          @extend .anim;
+        }
+  
+      }
+      input{
+        @extend .anim;
+        font-size: 15px;
+        border: 1px solid $bLight;
+        padding: 5px 10px;
+        &#up_password2{
+          margin-top: 5px;
+        }
+      }
+  
+      &.has-error{
+        label{
+          font-weight: bold;
+          .err{
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(0);
+          }
+        }
+        input{
+          border-color: #f44;
+        }
+      }
+    }
+  
+  
+  
+  
+  
+    #terms-and-conditions{
+      padding: 20px;
+      background-color: $bLight;
+      margin-bottom: 20px;
+  
+      &.not-checked{
+        animation: .8s shake infinite alternate;
+      }
+  
+  
+      label{
+        margin-left: 10px;
+      }
+    }
+  
+    #user-form-submit{
+      input{
+        
+        @extend .an;
+        text-align: center;
+        padding: 15px 20px;
+        border: 1px solid $bDark;
+        background-color: $bDark;
+        color: #fff;
+        font-size: 18px;
+  
+        &:hover{
+          box-shadow: 0 1px 3px rgba(0,0,0,.3);
+        }
+      }
+    }
+    
+  }
+  
+  // #user-company{
+  //   @extend .anim;
+  //   overflow: hidden;
+  //   visibility: visible;
+  //   display: block;
+  //   opacity: 1;
+  // }
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  .switch-field {
+    padding: 10px 3px 20px;
+    overflow: hidden;
+    input {
+        position: absolute !important;
+        clip: rect(0, 0, 0, 0);
+        height: 1px;
+        width: 1px;
+        border: 0;
+        overflow: hidden;
+    }
+  
+    label {
+      float: left;
+      
+      font-size: 13px;
+      background-color: #e4e4e4;
+      color: rgba(0, 0, 0, 0.6);
+      font-weight: normal;
+      text-align: center;
+      text-shadow: none;
+      padding: 4px 10px;
+      border: 1px solid rgba(0, 0, 0, 0.2);
+      -webkit-box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px rgba(255, 255, 255, 0.1);
+      box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px rgba(255, 255, 255, 0.1);
+      @extend .anim;
+  
+      &:hover {
+        cursor: pointer;
+      }
+  
+    //   &:first-of-type {
+    //     // border-radius: 4px 0 0 4px;
+    //   }
+    //   &:last-of-type {
+    //     // border-radius: 0 4px 4px 0;
+    //   }
+    }
+  }
+  
+  .switch-field input:checked + label {
+    background-color: $bYellow;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+  }
+  
+  
+  
+  
+  
+  
+  
+  @keyframes shake {
+    0% { transform: skewX(-15deg); }
+    5% { transform: skewX(15deg); }
+    10% { transform: skewX(-15deg); }
+    15% { transform: skewX(15deg); }
+    20% { transform: skewX(0deg); }
+    100% { transform: skewX(0deg); }  
+  }

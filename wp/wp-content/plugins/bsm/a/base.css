@@ -1,0 +1,100 @@
+#bsm-dash{
+  /*background: #f00;*/
+}
+
+#bsm-recent-orders .bsm-pagination{
+  padding-top: 20px;
+}
+#bsm-recent-order-head-row, .bsm-recent-order{
+  display: flex;
+  /*padding: 5px 0;*/
+
+}
+
+#bsm-recent-orders-table,#bsm-order-products-table{
+  border-collapse: collapse;
+  text-align: left;
+}
+
+
+#bsm-recent-orders-table thead tr,#bsm-order-products-table thead tr{
+  border-bottom: 1px solid rgba(0,0,0,.2)
+}
+#bsm-recent-orders-table thead tr th,#bsm-order-products-table thead tr th{
+  padding: 5px;
+  border-right: 1px solid rgba(0,0,0,.1);
+}
+#bsm-recent-orders-table thead tr th:last-of-type, #bsm-order-products-table thead tr th:last-of-type{
+  border-right: none;
+}
+
+
+#bsm-recent-orders-table tbody tr,#bsm-order-products-table tbody tr{
+  border-bottom: 1px solid rgba(0,0,0,.1)
+}
+#bsm-recent-orders-table tbody tr:last-of-type,#bsm-order-products-table tbody tr:last-of-type{
+  border-bottom: none;
+}
+#bsm-recent-orders-table tbody tr td,#bsm-order-products-table tbody tr td{
+  padding: 5px;
+  border-right: 1px solid rgba(0,0,0,.1);
+}
+#bsm-recent-orders-table tbody tr td:last-of-type,#bsm-order-products-table tbody tr td:last-of-type{
+  border-right: none;
+}
+#bsm-order-products-table tbody tr td:first-of-type{
+  min-width: 200px;
+}
+#bsm-order-products-table tbody tr td:last-of-type{
+  text-align: right;
+}
+#bsm-recent-orders-table tbody tr td:nth-child(2){
+  font-weight: bold;
+}
+
+#bsm-order-products-table tfoot tr td:last-of-type{
+  text-align: right;
+  font-weight: bold;
+  font-size: 1.2em;
+  border-left: 1px solid rgba(0,0,0,.1);
+  padding: 5px;
+}
+#bsm-order-products-table tfoot{
+  border-top: 1px solid rgba(0,0,0,.2);
+}
+
+.bsm-pagination a{ margin-right: 2px !important; }
+
+.boi-row{
+  display: flex;
+}
+.boi-row:last-of-type .boi-label,.boi-row:last-of-type .boi-field{
+ border-bottom: none;
+}
+.boi-label{
+  min-width: 100px;
+  border-right: 1px solid rgba(0,0,0,.1);
+}
+.boi-field{
+  min-width: 300px;
+}
+.boi-label,.boi-field{
+  border-bottom: 1px solid rgba(0,0,0,.1);
+  padding: 10px;
+}
+
+
+#bsm-status-loading{
+  /*margin-top: 3px;*/
+}
+.bsm-spinner{
+  -webkit-transition: all 200ms ease-in;
+  -moz-transition: all 200ms ease-in;
+  -ms-transition: all 200ms ease-in;
+  -o-transition: all 200ms ease-in;
+  transition: all 200ms ease-in;
+  opacity: 0;
+}
+.bsm-spinner.visible{
+  opacity: 1;
+}
