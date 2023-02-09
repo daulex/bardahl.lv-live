@@ -33,3 +33,4 @@ wp/license.txt
 
 .code-workspace
 *.code-workspace
+wp/.htaccess.bk
