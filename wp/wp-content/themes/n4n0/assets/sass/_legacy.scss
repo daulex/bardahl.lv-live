@@ -427,9 +427,11 @@ $carousel_height: 20rem;
 	padding: 0;
 	@extend .anim;
 
-	text-align: center;
+	
   .product{
 		width: 33.3%;
+        height: 1px;
+        min-height: 290px;
   }
   &.searching{
   	width: 100%;
@@ -441,63 +443,93 @@ $carousel_height: 20rem;
   			margin: 0;
   		}
   		@media only screen and (max-width: 420px){
-  			width: 49.5%;
-  			margin: 0;
+  			width: 46%;
+  			margin: 0 1%;
   		}
   	}
   }
 }
-.product-row-3{
-	overflow: hidden;
-	padding-bottom: 20px;
+#product-loop-wrap .product{
+	
 	a{
-		display: block;
-		background: #fff;
-		color: #000;
-		cursor: pointer;
-		position: relative;
-		&:hover{
-			text-decoration: none;
-		}
-		.prices{
-			position: absolute;
-			top:0;
-			right:0;
-			background: $bYellow;
-			color: #000;
-			border-bottom: 1px solid #000;
-			border-left: 1px solid #000;
-			padding: 5px;
-			font-size: 12px;
-		}
-		.buy{
-			text-align: center;
-			display: block;
-			background: $bYellow;
-			color: $bDark;
-			border-top: 1px solid $bDark;
-			border-bottom: 2px solid #000;
-			padding: 5px;
-			font-weight: bold;
-		}
-		img{
-			display: block;
-			width: 100%;
-			height: auto;
-		}
-		span.type{
-			display: block;
-			padding: 15px 10px 0;
-			color: #333;
-			font-size: 14px;
-			font-style: italic;
-		}
-		span.name{
-			display: block;
-			padding: 0 10px 5px;
-			font-size: 18px;
-			font-weight: 600;
-		}
+		display: flex;
+        flex-direction: column;
+        height: 100%;
+        position: relative;
+        text-decoration: none;
+        color: $bDark;
+        border-right: 1px solid $bYellow;
+        border-bottom: 1px solid $bYellow;
+        &:hover{
+            color: $bDark;
+            text-decoration: none;
+            .img-container{
+                transform: scale(1.2);
+            }
+        }
+
+        .img-container{
+            width: 100%;
+            height: 150px;
+            display: block;
+            transition: all 400ms ease;
+            margin-top: 30px;
+            img{
+                object-fit: contain;
+                width: 100%;
+                height: 100%;
+            }
+        }
+        .type{
+            display: block;
+            font-size: 11px;
+            font-style: italic;
+            line-height: 1.2;
+            font-weight: normal;
+            
+            background: #fff;
+            position: absolute;
+            transform: translateY(-15px);
+            padding: 2px;
+            margin-top: auto;
+        }
+        .name{
+            display: block;
+            z-index: 2;
+            position: relative;
+        }
+        .prices{
+            font-weight: bold;
+            font-size: 13px;
+            line-height: 1.1;
+        }
+        
+
+        .buy{
+            background: $bYellow;
+            display: block;
+            padding: 2px 8px;
+            font-weight: bold;
+            margin-left: auto;
+        }
+        .details{
+            display: flex;
+            justify-content: space-between;
+            align-items: end;
+            flex-wrap:wrap;
+            margin-top: auto;
+            &__description{
+                width: 100%;
+                .name{
+                    text-align: left;
+                    padding: 0 2px;
+                }
+                
+            }
+            .price-row{
+                padding: 0 2px;
+            }
+        }
 	}
 }
 
@@ -1399,8 +1431,6 @@ $carousel_height: 20rem;
 				display: block;
 				text-align: center;
 				max-width: 80%;
-				margin-left: auto;
-				margin-right: auto;
 				color: $bWhite;
 				text-decoration: none;
 				&:hover,&:active{
@@ -1423,7 +1453,9 @@ $carousel_height: 20rem;
 		flex-wrap: wrap;
 
 		.product{
-			width: 49.5%;
+			width: 46%;
+            margin: 0 1%;
+
 			padding: 1rem 0;
 		}
 	}
