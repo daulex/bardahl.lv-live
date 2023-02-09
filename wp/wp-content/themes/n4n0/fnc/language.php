@@ -97,7 +97,10 @@ function get_ui_text($name, $lang = "auto"){
         "special_offer_link" => 2983,
         "posts_page" => 3587,
         "posts_page_label" => "Visas ziņas",
-        "approved_by_car_brands" => "Apstiprināts ar lielākajiem automašīnu ražotājiem Eiropā"
+        "approved_by_car_brands" => "Apstiprināts ar lielākajiem automašīnu ražotājiem Eiropā",
+        "data_sheets" => "Datu lapas",
+        "technical_data_sheet" => "Tehnisko datu lapa",
+        "safety_data_sheet" => "Drošības datu lapa",
         ),
       "ru" => array(
         "official_distributor" => "Официальный дилер Бардаль в Латвии",
@@ -172,6 +175,10 @@ function get_ui_text($name, $lang = "auto"){
         "advise_oil" => "Посоветуйте масло",
         "advise_oil_page" => 4516,
         "filter_advice" => "Получить консультацию по фильтрам",
+
+        "data_sheets" => "Технические данные",
+        "technical_data_sheet" => "Лист технических данных",
+        "safety_data_sheet" => "Паспорт безопасности химической продукции",
         
 
         // Города

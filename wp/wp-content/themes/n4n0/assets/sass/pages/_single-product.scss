@@ -55,15 +55,24 @@
         }
       }
       .product-to-cart{
-        width: 100px;
+        width: 125px;
+        display: flex;
+        input,.to-cart{
+            border-radius: 0;
+            border: 1px solid green;
+            font-size: 16px;
+            line-height: 100%;
+            padding: 3px 0;
+        }
         input{
           width: 20px;
           text-align: center;
-          margin-top: -5px;
         }
         .to-cart{
-          font-size: 100%;
-          color: green;
+          background-color: green;
+          color: white;
+          padding-left: 5px;
+          padding-right: 5px;
         }
       }
     }

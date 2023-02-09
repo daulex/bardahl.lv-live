@@ -173,6 +173,7 @@ header{
 			ul,span{
 				display: none;
 			}
+            
 		}
 	}
 	#hin-2{
@@ -253,16 +254,16 @@ header{
 			}
 			.menu-btn{
 				font-weight: bold;
-			}
+            }
 		}
 		@media only screen and (max-width: 400px){
 			#cart-nav{
-				font-size: .7rem;
 				padding: .5rem;
+                margin-right: 1rem;
 			}
 			.menu-btn{
 				// font-size: .7rem;
-				font-size: 1rem;
+				font-size: 1.5rem;
 				padding: .5rem;
 				margin-left: 0;
 				span{
@@ -531,12 +532,15 @@ $carousel_height: 20rem;
 		max-width: 100%;
 		height: auto !important;
 	}
-	h1{ font-size: 2rem; line-height: 1.4; }
-	h2{ font-size: 1.8rem; line-height: 1.4; }
-	h3{ font-size: 1.6rem; line-height: 1.4; }
-	h4{ font-size: 1.4rem; line-height: 1.4; }
-	h5{ font-size: 1.2rem; line-height: 1.4; }
-	h6{ font-size: 1.2rem; line-height: 1.4; }
+    h1,h2,h3,h4,h5,h6{
+        line-height: 1.4;
+    }
+	h1{ font-size: 2rem;}
+	h2{ font-size: 1.8rem;}
+	h3{ font-size: 1.6rem;}
+	h4{ font-size: 1.4rem;}
+	h5{ font-size: 1.2rem;}
+	h6{ font-size: 1.2rem;}
 	p,ul,ol{
 		margin-bottom: 20px;
 		margin-top: 0;

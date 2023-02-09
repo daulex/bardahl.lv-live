@@ -5,6 +5,7 @@
 	include 'fnc/post-helpers.php';
 	include 'fnc/remove-comments.php';
 	include 'fnc/language.php';
+    include 'fnc/helper-products.php';
 
     add_action( 'wp_enqueue_scripts', function() {
 

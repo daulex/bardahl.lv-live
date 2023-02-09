@@ -2,8 +2,15 @@
 	/* Template name: product */
   if(!current_user_can("administrator"))
     header("Location: https://bardahl.lv");
-	get_header();
-	if(have_posts()): while(have_posts()): the_post();
+
+get_header();
+if(have_posts()): while(have_posts()): the_post();
+
+$fields = get_fields($post->ID);
+
+$technical_data_sheet = $fields['tds'] ?? false;
+$safety_data_sheet = $fields['msds'] ?? false;
+
 ?>
 <div id="product" class="container">
 	<div class="row" id="product-wrap">
@@ -60,23 +67,16 @@
 						</div>
 						<div class="product-to-cart">
 							<input type="text" name="qty" value="1" class="cqty">
-							<a title="<?php echo get_ui_text("to_cart"); ?>" href="#" class="to-cart" data-pn="<?php echo $i; ?>" data-pid="<?php echo $id; ?>"><i class="fa fa-cart-plus"></i></a>
+							
+                            <button class="to-cart" data-ean="<?php echo $price['ean']; ?>">
+                                <i class="fa fa-shopping-cart"></i> <?php echo get_ui_text("to_cart"); ?>
+                            </button>
 						</div>
 						<div class="product-sku"><?php echo $price['sku']; ?></div>
 					</div>
 					<?php $i++; endforeach; ?>
-<?php /*
-					<div id="availability">
-					<?php
-						$not_available = get_field("not_available");
-						if(!$not_available):
-					?>
-						<div id="availability-available"><i class="fa fa-check"></i> <?php echo get_ui_text('product_available'); ?></div>
-					<?php else: ?>
-						<div id="availability-not-available"><i class="fa fa-times"></i> <?php echo get_ui_text('product_not_available'); ?></div>
-					<?php endif; ?>
-					</div>
-*/ ?>
+                    
+                    
 					
 				</div>
 
@@ -85,6 +85,16 @@
 				<div class="the-content" id="product-content">
 					<?php the_field("main_content") ?>
 				</div>
+
+                <?php if($technical_data_sheet || $safety_data_sheet): ?>
+                <div id="data-sheets">
+                    <h4><?php echo get_ui_text("data_sheets"); ?></h4>
+                    <ul>
+                        <?php echo get_data_sheet_link($technical_data_sheet, 'technical_data_sheet'); ?>
+                        <?php echo get_data_sheet_link($safety_data_sheet, 'safety_data_sheet'); ?>
+                    </ul>
+                </div>
+                <?php endif; ?>
 
 			</div>
 		</div>
@@ -97,22 +107,6 @@
 	</div>
 </div>
 
-<?php
-	get_template_part("parts/popular");
-	get_template_part("parts/brands");
-
-?>
-
-<script>
-	// fbq('init', '595424047276107');
-	// fbq('track', 'ViewContent', { 
-	//     content_type: 'product',
-	//     content_ids: ['<?php echo $post->ID; ?>'],
-	//     content_name: '<?php echo $post->post_title; ?>',
-	//     value: <?php echo $fpr; ?>,
-	//     currency: 'EUR'
-	// });
-</script>
 <?php
 	endwhile; endif;
 

@@ -109,12 +109,12 @@
             $menu = get_lang() == "ru" ? "top-ru" : "top";
             wp_nav_menu("&menu=".$menu."&container=");
           ?>
-          <a href="<?php echo get_permalink(get_ui_text('cart_link')); ?>" id="cart-nav"><i class="fa fa-2x fa-shopping-cart"></i> &nbsp; &euro;<span class="cart-val"><?php echo cart_sum(); ?></span></a>
+          <a href="<?php echo get_permalink(get_ui_text('cart_link')); ?>" id="cart-nav"><i class="fa fa-shopping-cart"></i> &nbsp; &euro;<span class="cart-val"><?php echo cart_sum(); ?></span></a>
           <button class="menu-btn">&#9776; <span><?php echo get_ui_text('toggle_menu'); ?></span></button>
         </div>
       </div>
     </div>  
   </div>
-  
+            
 </header>
 
