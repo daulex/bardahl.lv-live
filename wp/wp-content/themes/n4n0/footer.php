@@ -56,7 +56,6 @@ s0.parentNode.insertBefore(s1,s0);
 <?php $v = get_r_v(); ?>
 <?php wp_enqueue_script( "jquery", false, 0, $v, true ); ?>
     <?php wp_enqueue_script( "plugins", get_template_directory_uri()."/a/js/plugins.js", 0, $v, true ); ?>
-    <?php wp_enqueue_script( "slick", get_template_directory_uri()."/a/plugins/slick/slick.min.js", 0, $v, true ); ?>
     <?php wp_enqueue_script( "pushy", get_template_directory_uri()."/a/plugins/pushy/js/pushy.min.js", 0, $v, true ); ?>
     <?php wp_enqueue_script( "site", get_template_directory_uri()."/a/js/site.js", array("plugins"), $v, true ); ?>
     <?php wp_enqueue_script( "shop", get_template_directory_uri()."/a/js/shop.js", array("site","plugins"), $v, true ); ?>

@@ -19,7 +19,7 @@
     
     
     <div class="img-container">
-        <img src="<?php echo $imgSizes['large']; ?>" alt="<?php echo $pt; ?>">
+        <img src="<?php echo $imgSizes['medium']; ?>" alt="<?php echo $pt; ?>">
     </div>
 
 
