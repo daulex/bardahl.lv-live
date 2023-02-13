@@ -20,9 +20,6 @@ jQuery(document).ready(function($) {
 
 
 
-	$('.single-item').slick({
-		dots: true
-	});
 
 	
 	$(".product-category-title").on("click", function(e){

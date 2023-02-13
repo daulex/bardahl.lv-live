@@ -15,11 +15,11 @@
             wp_enqueue_style( 'app', get_template_directory_uri() . '/dist/css/app.min.css', array(), $csstime );
         endif;
 
-        // App script
-        if ( file_exists( get_template_directory() . '/dist/js/app.min.js' ) ) :
-            $jstime = filemtime( get_template_directory() . '/dist/js/app.min.js' );
-            wp_enqueue_script( 'app', get_template_directory_uri() . '/dist/js/app.min.js', array(), $jstime, true );
-        endif;
+        // // App script
+        // if ( file_exists( get_template_directory() . '/dist/js/app.min.js' ) ) :
+        //     $jstime = filemtime( get_template_directory() . '/dist/js/app.min.js' );
+        //     wp_enqueue_script( 'app', get_template_directory_uri() . '/dist/js/app.min.js', array(), $jstime, true );
+        // endif;
 
     });
 

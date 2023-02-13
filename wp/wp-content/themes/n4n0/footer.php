@@ -53,7 +53,10 @@ s0.parentNode.insertBefore(s1,s0);
 
 
 <?php endif; ?>
-<?php $v = get_r_v(); ?>
+<?php 
+
+    $v = filemtime( get_template_directory_uri()."/a/js/site.js" );
+?>
 <?php wp_enqueue_script( "jquery", false, 0, $v, true ); ?>
     <?php wp_enqueue_script( "plugins", get_template_directory_uri()."/a/js/plugins.js", 0, $v, true ); ?>
     <?php wp_enqueue_script( "pushy", get_template_directory_uri()."/a/plugins/pushy/js/pushy.min.js", 0, $v, true ); ?>
