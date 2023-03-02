@@ -50,19 +50,17 @@ s0.parentNode.insertBefore(s1,s0);
 })();
 </script>
 <!--End of Tawk.to Script-->
-
-
-<?php endif; ?>
 <?php 
 
-    $v = filemtime( get_template_directory_uri()."/a/js/site.js" );
-?>
-<?php wp_enqueue_script( "jquery", false, 0, $v, true ); ?>
-    <?php wp_enqueue_script( "plugins", get_template_directory_uri()."/a/js/plugins.js", 0, $v, true ); ?>
-    <?php wp_enqueue_script( "pushy", get_template_directory_uri()."/a/plugins/pushy/js/pushy.min.js", 0, $v, true ); ?>
-    <?php wp_enqueue_script( "site", get_template_directory_uri()."/a/js/site.js", array("plugins"), $v, true ); ?>
-    <?php wp_enqueue_script( "shop", get_template_directory_uri()."/a/js/shop.js", array("site","plugins"), $v, true ); ?>
+endif; 
 
-<?php wp_footer(); ?>
+    $v = filemtime( get_template_directory()."/a/js/site.js" );
+    wp_enqueue_script( "jquery", false, 0, $v, true );
+    wp_enqueue_script( "plugins", get_template_directory_uri()."/a/js/plugins.js", 0, $v, true );
+    wp_enqueue_script( "pushy", get_template_directory_uri()."/a/plugins/pushy/js/pushy.min.js", 0, $v, true );
+    wp_enqueue_script( "site", get_template_directory_uri()."/a/js/site.js", array("plugins"), $v, true );
+    wp_enqueue_script( "shop", get_template_directory_uri()."/a/js/shop.js", array("site","plugins"), $v, true );
+
+wp_footer(); ?>
 </body>
 </html>
