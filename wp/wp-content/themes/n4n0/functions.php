@@ -79,21 +79,25 @@
 		$positions = explode(",", $cart_pre);
 
 		foreach($positions as $pos):
-			$dp = explode("|", $pos);
-			$source = get_product_source($dp[0]);
+			$cart_items = explode("|", $pos);
+            $quantity_in_cart = $cart_items[1];
+            $post_id = $cart_items[0];
+            $price_repeater_index = $cart_items[2];
+
+			$source = get_product_source($post_id);
 
 
 			$prices = get_field("prices", $source);
 			// post_id|quantity|price
 
 			$title = get_the_title($source);
-			$price = $prices[$dp[2]-1];
+			$price = $prices[ $price_repeater_index - 1 ];
 
 			$pos_ready = array(
-				"id" => $dp[0],
-				"pricebm" => $dp[2],
+				"id" => $post_id,
+				"pricebm" => $price_repeater_index,
 				"title" => $title,
-				"qty" => $dp[1],
+				"qty" => $quantity_in_cart,
 				"price" => $price
 				);
 

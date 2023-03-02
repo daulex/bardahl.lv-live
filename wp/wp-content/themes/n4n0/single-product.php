@@ -59,7 +59,7 @@ $safety_data_sheet = $fields['msds'] ?? false;
 								<i title="<?php echo get_ui_text('product_not_available'); ?>" class="fa fa-times not-available"></i>
 							<?php endif; ?>
 						</div>
-						<div class="product-price">
+						<div class="product-price price-data">
 							<span class="price">&euro;<?php echo $price['price']; ?></span>	
 						</div>
 						<div class="product-quantity">
@@ -68,19 +68,20 @@ $safety_data_sheet = $fields['msds'] ?? false;
 						<div class="product-to-cart">
 							<input type="text" name="qty" value="1" class="cqty">
 							
-                            <button class="to-cart" data-ean="<?php echo $price['ean']; ?>">
+                            <button 
+                                class="to-cart" 
+                                data-ean="<?php echo $price['ean']; ?>" 
+                                data-pn="<?php echo $i; ?>" 
+                                data-pid="<?php echo $id; ?>"
+                                data-price="<?php echo $price['price']; ?>"
+                                >
                                 <i class="fa fa-shopping-cart"></i> <?php echo get_ui_text("to_cart"); ?>
                             </button>
 						</div>
 						<div class="product-sku"><?php echo $price['sku']; ?></div>
 					</div>
 					<?php $i++; endforeach; ?>
-                    
-                    
-					
 				</div>
-
-
 
 				<div class="the-content" id="product-content">
 					<?php the_field("main_content") ?>

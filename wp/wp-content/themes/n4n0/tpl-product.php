@@ -62,7 +62,8 @@
 							$fpr = $price['price'];
 					?>
 					<div class="price-row">
-						<span class="qty"><?php echo $price['quantity']; ?></span> &nbsp; <span class="price">&euro;<?php echo $price['price']; ?></span> &nbsp; <input type="text" name="qty" value="1" class="cqty"><a href="#" class="to-cart" data-pn="<?php echo $i; ?>" data-pid="<?php echo $id; ?>"><i class="fa fa-cart-plus"></i> <?php echo get_ui_text("to_cart"); ?></a>
+						<span class="qty"><?php echo $price['quantity']; ?></span> &nbsp; <span class="price">&euro;<?php echo $price['price']; ?></span> &nbsp; <input type="text" name="qty" value="1" class="cqty">
+                        <a href="#" class="to-cart" data-pn="<?php echo $i; ?>" data-pid="<?php echo $id; ?>" data-price="<?php echo $price['price']; ?>"><i class="fa fa-cart-plus"></i> <?php echo get_ui_text("to_cart"); ?></a>
 					</div>
 					<?php $i++; endforeach; ?>
 

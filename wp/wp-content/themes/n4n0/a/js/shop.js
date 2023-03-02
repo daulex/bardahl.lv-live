@@ -131,8 +131,7 @@ function rebuild_cart_cookie(){
 		var id = $(this).attr("data-pid");
 		var pn = $(this).attr("data-pn");
 		var qty = isNaN(parseInt($(this).prev().val())) ? "1" : $(this).prev().val();
-
-		var price = $(this).parent().children(".price").text().substring(1);
+		var price = $(this).attr("data-price");
 		var sum = Number(parseFloat(price).toFixed(2))*Number(parseInt(qty));
 		var sum = sum.toFixed(2);
 		
