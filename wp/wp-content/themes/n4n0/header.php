@@ -91,15 +91,6 @@
           <span class="hin-1-address"><?php echo get_ui_text('address'); ?></span>
           <span class="hin-1-phone"><?php echo get_ui_text('phone'); ?></span>
 
-          <div id="lang-switch">
-
-          <?php if(get_lang() == "ru"): ?>
-            <a href="/" id="switch-lv"><img src="<?php echo get_template_directory_uri(); ?>/a/i/lv.svg" alt="Latviešu"></a>
-          <?php else: ?>
-            <a href="/ru/" id="switch-ru">ru</a>
-          <?php endif; ?>
-          </div>
-
         </div>
         <div id="hin-2">
         
