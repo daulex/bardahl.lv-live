@@ -6,6 +6,8 @@ function get_ui_text($name, $lang = "auto"){
       $lang = get_lang() === "ru" ? "ru" : "lv";
     }
 
+    $name = str_replace(" ", "_", $name);
+
 
     // text
     $text = array(
@@ -19,13 +21,16 @@ function get_ui_text($name, $lang = "auto"){
         "oil" => "Eļļa",
         "oils" => "Eļļas",
         "oiladditive" => "Eļļas piedeva",
+        "oil_additive" => "Eļļas piedeva",
         "oiladditives" => "Eļļas piedevas",
+        "oil_additives" => "Eļļas piedevas",
         "fueladditive" => "Degvielas piedeva",
-        "fuel additive" => "Degvielas piedeva",
+        "fuel_additive" => "Degvielas piedeva",
         "fueladditives" => "Degvielas piedevas",
-        "fuel additives" => "Degvielas piedevas",
+        "fuel_additives" => "Degvielas piedevas",
         "stop-leak" => "Stop leak",
         "carcare" => "Car care",
+        "car_care" => "Car care",
         "product_page" => 5,
         "toggle_menu" => "Menu",
         "all" => "Visi",
@@ -116,13 +121,16 @@ function get_ui_text($name, $lang = "auto"){
         "oil" => "Масло",
         "oils" => "Масла",
         "oiladditive" => "Присадка к маслу",
+        "oil_additive" => "Присадка к маслу",
         "oiladditives" => "Присадки к маслу",
+        "oil_additives" => "Присадки к маслу",
         "fueladditive" => "Присадка к топливу",
         "fuel additive" => "Присадка к топливу",
         "fueladditives" => "Присадки к топливу",
         "fuel additives" => "Присадки к топливу",
         "stop-leak" => "Stop leak",
         "carcare" => "Car care",
+        "car_care" => "Car care",
         "product_page" => 11,
         "toggle_menu" => "Навигация",
         "all" => "Все",
