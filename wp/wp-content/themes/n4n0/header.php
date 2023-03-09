@@ -1,23 +1,14 @@
-<?php  $v = get_r_v(); ?>
 <!doctype html>
-<html lang="<?php echo get_lang() == "ru" ? "ru" : "lv"; ?>">
+<html lang="lv">
 <head>
 	<meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE" />
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
 	<title><?php wp_title(' | ', true, 'right'); ?></title>
+    
     <link rel="stylesheet" href="<?php bloginfo('template_url'); ?>/a/plugins/pushy/css/pushy.css" />
-
-
-	<!-- <link rel="stylesheet" href="<?php bloginfo('template_url'); ?>/a/css/reset.css" />
-  <link rel="stylesheet" href="<?php bloginfo('template_url'); ?>/a/plugins/slick/slick.css" />
-  
-	
-  
-  
-  <link rel="stylesheet" href="<?php bloginfo('template_url'); ?>/a/css/base.css?v=<?php echo $v; ?>" /> -->
-  <link rel="stylesheet" href="<?php bloginfo('template_url'); ?>/a/css/fontawesome/css/font-awesome.min.css?v=150917" />
+    <link rel="stylesheet" href="<?php bloginfo('template_url'); ?>/a/css/fontawesome/css/font-awesome.min.css?v=150918" />
 	<?php wp_head(); ?>
 
 <!-- Global site tag (gtag.js) - Google AdWords: 1046291819 -->
@@ -39,24 +30,6 @@
   ga('create', 'UA-2761409-27', 'auto');
   ga('send', 'pageview');
 </script>
-
-<!-- Facebook Pixel Code -->
-<script>
-  !function(f,b,e,v,n,t,s)
-  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-  n.queue=[];t=b.createElement(e);t.async=!0;
-  t.src=v;s=b.getElementsByTagName(e)[0];
-  s.parentNode.insertBefore(t,s)}(window, document,'script',
-  'https://connect.facebook.net/en_US/fbevents.js');
-  fbq('init', '595424047276107');
-  fbq('track', 'PageView');
-</script>
-<noscript><img height="1" width="1" style="display:none"
-  src="https://www.facebook.com/tr?id=595424047276107&ev=PageView&noscript=1"
-/></noscript>
-<!-- End Facebook Pixel Code -->
 
 </head>
 <body <?php body_class(); ?> data-lang="<?php echo get_lang() === 'ru' ? "ru" : "lv"; ?>">

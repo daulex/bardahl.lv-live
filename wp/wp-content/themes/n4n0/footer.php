@@ -1,11 +1,7 @@
 <?php
-
-	if(is_front_page() || $post && $post->ID == 9):
-		get_template_part("parts/news");
-	endif;
-
-  
-
+if(is_front_page() || $post && $post->ID == 9):
+    get_template_part("parts/news");
+endif;
 ?>
 
 <div id="footer-container">
@@ -19,24 +15,19 @@
 				wp_nav_menu("&menu=".$menu."&container=");
 			?>
 
-			<ul id="footer-social">
-				<li id="salidzini"><a href="https://www.salidzini.lv/"><img border="0" alt="Salidzini.lv logotips" title="L&#275;tas aviobi&#316;etes, Portat&#299;vie datori, Plan&#353;etdatori, Mobilie telefoni, Kasko, Ce&#316;ojumi, &#256;trie kred&#299;ti, Digit&#257;l&#257;s fotokameras, Octa, Kuponi, Interneta veikali" src="//static.salidzini.lv/images/logo_button.gif"/></a></li>
-			</ul>
+			
 		</div>
 	</div>
 </div>
 <div id="copyright-container">
 	<div class="container">
 		<div class="col-md-8">&copy; Bardahl Latvia (SIA GL Oils) <?php echo date("Y"); ?>. <i><?php echo get_ui_text("bardahl_riga"); ?></i></div>
-    <?php /*
-		<div class="col-md-4" id="devby"><a href="https://galenko.net">/ developed by galenko /</a></div>
-    */ ?>
 	</div>
 </div>
 
 </div><?php /* ended pushy container */ ?>
 
-<?php if(!current_user_can('administrator')): ?>
+<?php /* if(!current_user_can('administrator')): ?>
 <!--Start of Tawk.to Script-->
 <script type="text/javascript">
 var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
@@ -52,7 +43,7 @@ s0.parentNode.insertBefore(s1,s0);
 <!--End of Tawk.to Script-->
 <?php 
 
-endif; 
+endif; */
 
     $v = filemtime( get_template_directory()."/a/js/site.js" );
     wp_enqueue_script( "jquery", false, 0, $v, true );
