@@ -1,6 +1,6 @@
 <?php
 
-	if(is_front_page() || $post->ID == 9):
+	if(is_front_page() || $post && $post->ID == 9):
 		get_template_part("parts/news");
 	endif;
 

@@ -21,6 +21,7 @@
     register_post_type( 'product', array(
       'labels'  => $labels,
       'public' => true,
+      'rewrite' => array('slug' => 'produkti'),
       'has_archive' => true,
       'menu_icon' => 'dashicons-products',
       'taxonomies' => array('product-type','product-application'),

@@ -2,12 +2,21 @@
     $source = get_product_source($pid);
 
     $img = get_field("image", $source);
-    $imgSizes = $img['sizes'];
-    // $product_type = kg_get_tax($source, "product-type", "slug");
-    // $vehicle_type = kg_get_tax($source, "product-application", "slug");
+    if(!$img){
+        $src = wp_get_attachment_image_src(get_post_thumbnail_id($source), 'medium', false, '');
+        $img_url = $src[0];
+    }else{
+        $imgSizes = $img['sizes'];
+        $img_url = $imgSizes['medium'];
+    }
+    
+    // $product_type = 
+    // $vehicle_type = 
 
     $product_type = get_field("product_type", $source);
+    if(!$product_type) $product_type = kg_get_tax($source, "product-type", "slug");
     $vehicle_type = get_field("vehicle_type", $source);
+    if(!$vehicle_type) $vehicle_type = kg_get_tax($source, "product-application", "slug");
 
     $prices = get_field("prices", $source);
     $i = 1;
@@ -19,7 +28,7 @@
     
     
     <div class="img-container">
-        <img src="<?php echo $imgSizes['medium']; ?>" alt="<?php echo $pt; ?>">
+        <img src="<?php echo $img_url; ?>" alt="<?php echo $pt; ?>">
     </div>
 
 

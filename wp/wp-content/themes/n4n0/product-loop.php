@@ -1,10 +1,12 @@
 <?php 
-	$products = new WP_Query(array(
-		"nopaging" => true,
-		"post_type" => "page",
-		"post_status" => "publish",
-		"post_parent" => get_ui_text("product_page")
-		));
+    $query = $args['query'] ?? array(
+        "nopaging" => true,
+        "post_type" => "page",
+        "post_status" => "publish",
+        "post_parent" => get_ui_text("product_page")
+    );
+
+	$products = new WP_Query($query);
 
 	if($products->have_posts()): while($products->have_posts()): $products->the_post();
 		$pid = $post->ID;

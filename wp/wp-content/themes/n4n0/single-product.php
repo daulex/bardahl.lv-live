@@ -1,7 +1,4 @@
 <?php
-	/* Template name: product */
-  if(!current_user_can("administrator"))
-    header("Location: https://bardahl.lv");
 
 get_header();
 if(have_posts()): while(have_posts()): the_post();

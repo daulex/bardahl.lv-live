@@ -216,23 +216,26 @@ function get_ui_text($name, $lang = "auto"){
     );
 
     $set = $text[$lang];
-    $res = $set[$name];
+
+    if(isset($set[$name])):
+        $res = $set[$name];
+    else:
+        $res = $name;
+    endif;
 
     return $res;
   }
 
   function get_lang(){
 
+    return "";
+    // $res = explode("/", $_SERVER['REQUEST_URI']);
+    // $res = $res[1];
+    // $res = $res === "ru" ? "ru" : "";
 
-    $res = explode("/", $_SERVER['REQUEST_URI']);
-    $res = $res[1];
-    $res = $res === "ru" ? "ru" : "";
 
-    // if(isset($_COOKIE['lang'])):
-    //     $res = $_COOKIE['lang'];
-    // endif;
-
-    return $res;
+    
+    // return $res;
   }
 
   function get_adm_label($name, $id){
