@@ -63,7 +63,7 @@
 
 
 					
-					<div id="checkout-total"><?php echo get_ui_text("cart_sum"); ?> &euro;<span><?php echo number_format($sum, 2); ?></span></div>
+					<div id="checkout-total"><?php echo get_ui_text("cart_sum"); ?> &euro;<span><?php echo isset($sum) ?? number_format($sum, 2); ?></span></div>
 
 
 					<h2 id="checkout-delivery"><?php echo get_ui_text("cart_delivery"); ?></h2>
@@ -119,7 +119,7 @@
                             <div class="notice"><?php echo get_ui_text("form_promo_expl"); ?></div>
                         </div>
 					</div>
-					<input type="hidden" name="cart_val" value="<?php echo $_COOKIE['cart']; ?>">
+					<input type="hidden" name="cart_val" value="<?=isset($_COOKIE['cart'])??$_COOKIE['cart']; ?>">
 					<input type="submit" id="checkout-submit-hidden" value="<?php echo get_ui_text("order"); ?>">
 					<a href="#" id="checkout-submit"><i class="fa fa-check"></i> <?php echo get_ui_text("order"); ?></a>
 
@@ -129,6 +129,7 @@
 		</div>
 	</div>
 
+</div>
 </div>
 <?php
 if(false):

@@ -88,6 +88,7 @@
 
 
 			$prices = get_field("prices", $source);
+            
 			// post_id|quantity|price
 
 			$title = get_the_title($source);
