@@ -393,7 +393,6 @@ class GF_Field_Checkbox extends GF_Field {
 
 			foreach ( $lead_field_keys as $input_id ) {
 				if ( is_numeric( $input_id ) && absint( $input_id ) == $field_id ) {
-					$items[] = GFCommon::selection_display( rgar( $entry, $input_id ), null, $entry['currency'], false );
 					$items[] = $this->get_selected_choice_output( rgar( $entry, $input_id ), rgar( $entry, 'currency' ) );
 				}
 			}
@@ -508,9 +507,10 @@ class GF_Field_Checkbox extends GF_Field {
 	public function get_value_merge_tag( $value, $input_id, $entry, $form, $modifier, $raw_value, $url_encode, $esc_html, $format, $nl2br ) {
 
 		// Check for passed modifiers.
-		$use_value       = $modifier == 'value';
-		$use_price       = in_array( $modifier, array( 'price', 'currency' ) );
-		$format_currency = $modifier == 'currency';
+		$modifiers       = $this->get_modifiers();
+		$use_value       = in_array( 'value', $modifiers );
+		$format_currency = in_array( 'currency', $modifiers );
+		$use_price       = $format_currency || in_array( 'price', $modifiers );
 
 		if ( is_array( $raw_value ) && (string) intval( $input_id ) != $input_id ) {
 			$items = array( $input_id => $value ); // Float input IDs. (i.e. 4.1 ). Used when targeting specific checkbox items.

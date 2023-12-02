@@ -155,12 +155,31 @@ class GF_Upgrade {
 
 		$this->test_auto_increment();
 
+		$this->sync_auto_updates( $from_db_version );
+
 		// Start upgrade routine
 		if ( $force_upgrade || ! ( defined( 'GFORM_AUTO_DB_MIGRATION_DISABLED' ) && GFORM_AUTO_DB_MIGRATION_DISABLED ) ) {
 			$this->post_upgrade_schema( $from_db_version, $force_upgrade );
 		}
 
 		return true;
+	}
+
+	/**
+	 * Updates the WP auto_update_plugins option to match the background updates setting.
+	 *
+	 * @since 2.7.2
+	 *
+	 * @param string $previous_version The previous version.
+	 *
+	 * @return void
+	 */
+	public function sync_auto_updates( $previous_version ) {
+		if ( ! version_compare( $previous_version, '2.7.1.1', '<' ) ) {
+			return;
+		}
+
+		GFForms::get_service_container()->get( Gravity_Forms\Gravity_Forms\Updates\GF_Auto_Updates_Service_Provider::GF_AUTO_UPDATES_HANDLER )->activation_sync();
 	}
 
 	/**
@@ -181,6 +200,12 @@ class GF_Upgrade {
 
 		// Turn background updates on by default for all new installations.
 		update_option( 'gform_enable_background_updates', true );
+
+		// Set Orbital as the default theme for all new installations.
+		update_option( 'rg_gforms_default_theme', 'orbital', false );
+
+		// Setting the version of Gravity Forms that was installed initially
+		update_option( 'rg_form_original_version', GFForms::$version, false );
 
 		// Auto-setting and auto-validating license key based on value configured via the GF_LICENSE_KEY constant or the gf_license_key variable
 		// Auto-populating reCAPTCHA keys base on constant

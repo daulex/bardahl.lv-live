@@ -32,6 +32,7 @@ class Object_Cache extends Root {
 	private $_cfg_method;
 	private $_cfg_host;
 	private $_cfg_port;
+	private $_cfg_life;
 	private $_cfg_persistent;
 	private $_cfg_admin;
 	private $_cfg_transients;
@@ -386,7 +387,7 @@ class Object_Cache extends Root {
 			if ( substr( $k, 0, strlen( $this->_cfg_host ) ) != $this->_cfg_host ) {
 				continue;
 			}
-			if ( $v[ 'pid' ] > 0 ) {
+			if ( !empty($v['pid']) || !empty($v['curr_connections']) ) {
 				return true;
 			}
 		}
@@ -468,7 +469,13 @@ class Object_Cache extends Root {
 			try {
 				$res = $this->_conn->setEx( $key, $ttl, $data );
 			} catch ( \RedisException $ex ) {
-				throw new \Exception( $ex->getMessage(), $ex->getCode(), $ex );
+				$msg = sprintf(
+					__( 'Redis encountered a fatal error: %s (code: %d)', 'litespeed-cache' ),
+					$ex->getMessage(),
+					$ex->getCode()
+				);
+				Debug2::debug( '[Object] ' . $msg );
+				Admin_Display::error( $msg );
 			}
 		}
 		else {
@@ -515,7 +522,7 @@ class Object_Cache extends Root {
 			$res = $this->_conn->delete( $key );
 		}
 
-		return $res;
+		return (bool) $res;
 	}
 
 	/**

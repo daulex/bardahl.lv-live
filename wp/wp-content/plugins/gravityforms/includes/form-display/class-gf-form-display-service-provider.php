@@ -11,6 +11,7 @@ use Gravity_Forms\Gravity_Forms\Query\JSON_Handlers\GF_Query_JSON_Handler;
 use Gravity_Forms\Gravity_Forms\Query\JSON_Handlers\GF_String_JSON_Handler;
 use \GFCommon;
 use \GFForms;
+use \GFFormDisplay;
 
 /**
  * Class GF_Form_Display_Service_Provider
@@ -39,34 +40,38 @@ class GF_Form_Display_Service_Provider extends GF_Service_Provider {
 		require_once( plugin_dir_path( __FILE__ ) . '/block-styles/block-styles-handler.php' );
 
 		$container->add( self::FULL_SCREEN_HANDLER, function() use ( $container ) {
-
-			// Check the MySQL version to determine the correct query handler type.
-			$version = Full_Screen_Handler::get_mysql_version();
-			if( version_compare( $version, '5.7', '>=' ) ) {
-				$handler = $container->get( GF_Query_Service_Provider::JSON_QUERY_HANDLER );
-			} else {
-				$handler = $container->get( GF_Query_Service_Provider::JSON_STRING_HANDLER );
-			}
+			// Use string handler for now to avoid JSON query issues on old platforms.
+			$handler = $container->get( GF_Query_Service_Provider::JSON_STRING_HANDLER );
 
 			return new Full_Screen_Handler( $handler );
 		});
 
 		$container->add( self::BLOCK_STYLES_DEFAULTS, function() {
-			return array(
-				'theme'                        => 'gravity',
-				'inputSize'                    => 'md',
-				'inputBorderRadius'            => 3,
-				'inputBorderColor'             => '#686e77',
-				'inputBackgroundColor'         => '#fff',
-				'inputColor'                   => '#112337',
-				'labelFontSize'                => 14,
-				'labelColor'                   => '#112337',
-				'descriptionFontSize'          => 13,
-				'descriptionColor'             => '#585e6a',
-				'buttonPrimaryBackgroundColor' => '#204ce5',
-				'buttonPrimaryColor'           => '#fff',
-			);
-		});
+			return function( $form = array() ) {
+
+				$form_style_settings = rgar( $form, 'styles' ) ? $form['styles'] : array();
+				$form_styles         = GFFormDisplay::get_form_styles( $form_style_settings );
+
+				return array(
+					'theme'                        => get_option( 'rg_gforms_default_theme', 'gravity-theme' ),
+					'inputSize'                    => rgar( $form_styles, 'inputSize' ) ? $form_styles['inputSize'] : 'md',
+					'inputBorderRadius'            => rgar( $form_styles, 'inputBorderRadius' ) ? $form_styles['inputBorderRadius'] : 3,
+					'inputBorderColor'             => rgar( $form_styles, 'inputBorderColor' ) ? $form_styles['inputBorderColor'] : '#686e77',
+					'inputBackgroundColor'         => rgar( $form_styles, 'inputBackgroundColor' ) ? $form_styles['inputBackgroundColor'] : '#fff',
+					'inputColor'                   => rgar( $form_styles, 'inputColor' ) ? $form_styles['inputColor'] : '#112337',
+					// Setting this to empty allows us to set this to what the appropriate default
+					// should be for the theme framework and CSS API. When empty, it defaults to:
+					// buttonPrimaryBackgroundColor
+					'inputPrimaryColor'            => rgar( $form_styles, 'inputPrimaryColor' ) ? $form_styles['inputPrimaryColor'] : '', // #204ce5
+					'labelFontSize'                => rgar( $form_styles, 'labelFontSize' ) ? $form_styles['labelFontSize'] : 14,
+					'labelColor'                   => rgar( $form_styles, 'labelColor' ) ? $form_styles['labelColor'] : '#112337',
+					'descriptionFontSize'          => rgar( $form_styles, 'descriptionFontSize' ) ? $form_styles['descriptionFontSize'] : 13,
+					'descriptionColor'             => rgar( $form_styles, 'descriptionColor' ) ? $form_styles['descriptionColor'] : '#585e6a',
+					'buttonPrimaryBackgroundColor' => rgar( $form_styles, 'buttonPrimaryBackgroundColor' ) ? $form_styles['buttonPrimaryBackgroundColor'] : '#204ce5',
+					'buttonPrimaryColor'           => rgar( $form_styles, 'buttonPrimaryColor' ) ? $form_styles['buttonPrimaryColor'] : '#fff',
+				);
+			};
+		}, true );
 
 		$container->add( self::BLOCK_STYLES_HANDLER, function() use ( $container ) {
 			return new Block_Styles_Handler( $container->get( self::BLOCK_STYLES_DEFAULTS ) );
@@ -74,7 +79,7 @@ class GF_Form_Display_Service_Provider extends GF_Service_Provider {
 	}
 
 	/**
-	 * Initiailize any actions or hooks.
+	 * Initialize any actions or hooks.
 	 *
 	 * @since
 	 *
@@ -100,13 +105,20 @@ class GF_Form_Display_Service_Provider extends GF_Service_Provider {
 		$version  = GFForms::$version;
 		$min      = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG || isset( $_GET['gform_debug'] ) ? '' : '.min';
 
-		wp_register_style( 'gravity_forms_theme_reset', "{$base_url}/assets/css/dist/gravity-forms-theme-reset{$min}.css", array(), $version );
-		wp_register_style( 'gravity_forms_theme_foundation', "{$base_url}/assets/css/dist/gravity-forms-theme-foundation{$min}.css", array(), $version );
-		wp_register_style( 'gravity_forms_theme_framework', "{$base_url}/assets/css/dist/gravity-forms-theme-framework{$min}.css", array(
-			'gravity_forms_theme_reset',
-			'gravity_forms_theme_foundation'
-		), $version );
-		wp_register_style( 'gravity_forms_orbital_theme', "{$base_url}/assets/css/dist/gravity-forms-orbital-theme{$min}.css", array( 'gravity_forms_theme_framework' ), $version );
+		if ( ! (bool) get_option( 'rg_gforms_disable_css', false ) ) {
+			wp_register_style( 'gravity_forms_theme_reset', "{$base_url}/assets/css/dist/gravity-forms-theme-reset{$min}.css", array(), $version );
+			wp_register_style( 'gravity_forms_theme_foundation', "{$base_url}/assets/css/dist/gravity-forms-theme-foundation{$min}.css", array(), $version );
+			wp_register_style(
+				'gravity_forms_theme_framework',
+				"{$base_url}/assets/css/dist/gravity-forms-theme-framework{$min}.css",
+				array(
+					'gravity_forms_theme_reset',
+					'gravity_forms_theme_foundation',
+				),
+				$version
+			);
+			wp_register_style( 'gravity_forms_orbital_theme', "{$base_url}/assets/css/dist/gravity-forms-orbital-theme{$min}.css", array( 'gravity_forms_theme_framework' ), $version );
+		}
 	}
 
 }

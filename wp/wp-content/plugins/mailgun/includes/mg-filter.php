@@ -93,6 +93,7 @@ function mg_detect_from_name($from_name_header = null)
     }
 
     $filter_from_name = null;
+
     if ((!isset($mg_override_from) || $mg_override_from == '0') && has_filter('wp_mail_from_name')) {
         $filter_from_name = apply_filters(
             'wp_mail_from_name',
@@ -165,7 +166,7 @@ function mg_detect_from_address($from_addr_header = null): string
     }
 
     $filter_from_addr = null;
-    if (has_filter('wp_mail_from')) {
+    if ((!isset($mg_override_from) || $mg_override_from == '0') && has_filter('wp_mail_from')) {
         $filter_from_addr = apply_filters(
             'wp_mail_from',
             $from_addr
@@ -234,7 +235,7 @@ function mg_parse_headers($headers = []): array
             }
 
             // Explode the header
-            list($name, $value) = explode(':', trim($header), 2);
+            [$name, $value] = explode(':', trim($header), 2);
 
             // Clean up the values
             $name = trim($name);
@@ -329,4 +330,45 @@ function mg_smtp_get_region($getRegion)
         default:
             return false;
     }
+}
+
+/**
+ * Override WP VIP GO filter
+ * It sets default email address to `donotreply@wordpress.com`
+ */
+if ((defined('WPCOM_IS_VIP_ENV') && WPCOM_IS_VIP_ENV) || (defined('VIP_GO_ENV') && VIP_GO_ENV)) {
+
+    global $mg_from_mail;
+
+    /**
+     * @param string $from_mail
+     * @return mixed
+     */
+    function mg_wp_mail_from_standard(string $from_mail)
+    {
+        global $mg_from_mail;
+
+        $mg_from_mail = $from_mail;
+
+        return $from_mail;
+    }
+
+    add_filter('wp_mail_from', 'mg_wp_mail_from_standard', 0);
+
+    /**
+     * @param string $from_mail
+     * @return mixed
+     */
+    function mg_wp_mail_from_new(string $from_mail)
+    {
+        global $mg_from_mail;
+
+        if (!empty($mg_from_mail) && is_email($mg_from_mail)) {
+            return $mg_from_mail;
+        }
+
+        return $from_mail;
+    }
+
+    add_filter('wp_mail_from', 'mg_wp_mail_from_new', 2);
 }

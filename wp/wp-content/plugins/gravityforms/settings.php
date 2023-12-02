@@ -370,6 +370,28 @@ class GFSettings {
 	}
 
 	/**
+	* Determine whether Orbital should be the default theme.
+	*
+ 	* @since 2.7.15
+	*
+	* @return bool
+	*/
+    public static function is_orbital_default() {
+		if ( 'orbital' == get_option( 'rg_gforms_default_theme' ) ) {
+			return true;
+		}
+
+		// If there is no default theme saved, and if this is an old installation, Gravity Theme should be the default.
+		if ( version_compare( get_option( 'rg_form_original_version', '1.0.0' ), '2.7.14.2', '<' ) ) {
+		    return false;
+		}
+
+		return true;
+    }
+
+
+
+	/**
 	 * Prepare Plugin Settings fields.
 	 *
 	 * @since 2.5
@@ -377,11 +399,18 @@ class GFSettings {
 	 * @return array
 	 */
 	private static function plugin_settings_fields() {
+		$license_section_description = esc_html__( 'A valid license key is required for access to automatic plugin upgrades and product support.', 'gravityforms' );
+		$is_hidden                   = false;
+		if ( is_multisite() && ! is_main_site() && is_plugin_active_for_network( GF_PLUGIN_BASENAME ) ) {
+			$is_hidden                   = true;
+			$license_section_description = esc_html__( 'License key is managed by the administrator of this network', 'gravityforms' );
+		}
+
 		$fields = array(
 			'license_key'         => array(
 				'title'       => esc_html__( 'Support License Key', 'gravityforms' ),
 				'class'       => 'gform-settings-panel--full',
-				'description' => esc_html__( 'A valid license key is required for access to automatic plugin upgrades and product support.', 'gravityforms' ),
+				'description' => $license_section_description,
 				'fields'      => array(
 					array(
 						'name'                => 'license_key',
@@ -391,6 +420,7 @@ class GFSettings {
 						'callback'            => array( 'GFSettings', 'license_key_render_callback' ),
 						'class'               => 'gform-admin-input',
 						'validation_callback' => array( 'GFSettings', 'license_key_validation_callback' ),
+						'hidden'              => $is_hidden,
 						'after_input'         => function () {
 							/**
 							 * @var License\GF_License_API_Connector $license_connector
@@ -434,6 +464,8 @@ class GFSettings {
 							return $license_info->get_usability();
 						},
 						'save_callback'       => function( $field, $value ) {
+							// Remove non-alphanumeric characters.
+							$value = preg_replace( '/[^a-zA-Z0-9]/', '', $value );
 							if ( isset( $_POST['_gform_setting_license_key'] ) ) {
 								GFFormsModel::save_key( $value );
 							}
@@ -446,7 +478,7 @@ class GFSettings {
 			'license_key_details' => array(
 				'id'     => 'section_license_key_details',
 				'title'  => __( 'Your License Details', 'gravityforms' ),
-				'class'       => 'gform-settings-panel--no-padding gform-settings-panel--license-details',
+				'class'  => 'gform-settings-panel--no-padding gform-settings-panel--license-details',
 				'fields' => array(
 					array(
 						'name' => 'license_key_details',
@@ -455,6 +487,7 @@ class GFSettings {
 					),
 				),
 			),
+
 			'css'                 => array(
 				'id'          => 'section_default_css',
 				'title'       => esc_html__( 'Output Default CSS', 'gravityforms' ),
@@ -515,7 +548,40 @@ class GFSettings {
 					),
 				),
 			),
-			'toolbar'             => array(
+		);
+
+		$fields['default_theme'] = array(
+			'id'     => 'section_default_theme',
+			'title'  => esc_html__( 'Default Form Theme', 'gravityforms' ),
+			'class'  => 'gform-settings-panel--half',
+			'fields' => array(
+					array(
+					'name'          => 'default_theme',
+					'type'          => 'select',
+					'choices'       => array(
+						array(
+							'label'   => esc_html__( 'Gravity Forms 2.5 Theme', 'gravityforms' ),
+							'value'   => 'gravity-theme',
+							'default' => ! self::is_orbital_default(),
+						),
+						array(
+							'label'   => esc_html__( 'Orbital Theme (Recommended)', 'gravityforms' ),
+							'value'   => 'orbital',
+							'default' => self::is_orbital_default(),
+						),
+					),
+					'description'   => esc_html__( 'This theme will be used by default everywhere forms are embedded on your site.', 'gravityforms' ) . '&nbsp;<a href="https://docs.gravityforms.com/block-themes-and-style-settings/" target="_blank" aria-label="' . esc_html__( 'Learn more about form theme and style settings', 'gravityforms' ) . '">' . esc_html__( 'Learn more about form theme and style settings.', 'gravityforms' ) . '</a>',
+					'save_callback' => function( $field, $value ) {
+						update_option( 'rg_gforms_default_theme', $value );
+
+						return $value;
+					},
+				),
+			),
+		);
+
+
+        $fields['toolbar'] = array(
 				'id'          => 'section_enable_toolbar',
 				'title'       => esc_html__( 'Toolbar Menu', 'gravityforms' ),
 				'description' => esc_html__( 'Enable to display the forms menu in the WordPress top toolbar. The forms menu will display the ten forms recently opened in the form editor.', 'gravityforms' ),
@@ -532,8 +598,9 @@ class GFSettings {
 						},
 					),
 				),
-			),
-			'background_updates'  => array(
+        );
+
+        $fields['background_updates'] = array(
 				'id'          => 'section_enable_background_updates',
 				'title'       => esc_html__( 'Automatic Background Updates', 'gravityforms' ),
 				'description' => esc_html__( 'Enable to allow Gravity Forms to download and install bug fixes and security updates automatically in the background. Requires a valid license key.', 'gravityforms' ),
@@ -550,8 +617,9 @@ class GFSettings {
 						},
 					),
 				),
-			),
-			'no_conflict_mode'    => array(
+			);
+
+        $fields['no_conflict_mode'] = array(
 				'id'          => 'section_conflict_mode',
 				'title'       => esc_html__( 'No Conflict Mode', 'gravityforms' ),
 				'description' => esc_html__( 'Enable to prevent extraneous scripts and styles from being printed on a Gravity Forms admin pages, reducing conflicts with other plugins and themes.', 'gravityforms' ),
@@ -568,8 +636,9 @@ class GFSettings {
 						},
 					),
 				),
-			),
-			'akismet'             => array(
+			);
+
+        $fields['akismet'] = array(
 				'id'          => 'section_enable_akismet',
 				'title'       => esc_html__( 'Akismet Integration', 'gravityforms' ),
 				'description' => esc_html__( 'Protect your form entries from spam using Akismet.', 'gravityforms' ),
@@ -588,8 +657,9 @@ class GFSettings {
 						},
 					),
 				),
-			),
-			'html5'               => array(
+			);
+
+        $fields['html5'] = array(
 				'id'            => 'section_enable_html5',
 				'title'         => esc_html__( 'Output HTML5', 'gravityforms' ),
 				'description'   => esc_html__( 'Gravity Forms outputs HTML5 form fields by default. Disable this option if you would like to prevent the plugin from outputting HTML5 form fields.', 'gravityforms' ),
@@ -607,8 +677,9 @@ class GFSettings {
 						},
 					),
 				),
-			),
-			'telemetry'               => array(
+			);
+
+        $fields['telemetry'] = array(
 				'id'            => 'section_enable_telemetry_collection',
 				'title'         => esc_html__( 'Data Collection', 'gravityforms' ),
 				'description'   => sprintf( __( 'We love improving the form building experience for everyone in our community. By enabling data collection, you can help us learn more about how our customers use Gravity Forms. %1$sLearn more...%2$s', 'gravityforms' ), '<a target="_blank" href="https://docs.gravityforms.com/about-additional-data-collection/">', '</a>' ),
@@ -626,8 +697,7 @@ class GFSettings {
 						},
 					),
 				),
-			),
-		);
+			);
 
 		// Check if user has hidden license details in the installation wizard.
 		$hide_license_option = get_option( 'rg_gforms_' . GF_Setup_Wizard_Endpoint_Save_Prefs::PARAM_HIDE_LICENSE, false );
@@ -832,6 +902,7 @@ class GFSettings {
 
 		$initial_values = array(
 			'license_key'               => GFCommon::get_key(),
+			'default_theme'             => get_option( 'rg_gforms_default_theme', 'gravity-theme' ),
 			'currency'                  => GFCommon::get_currency(),
 			'disable_css'               => ! (bool) get_option( 'rg_gforms_disable_css' ),
 			'enable_html5'              => (bool) get_option( 'rg_gforms_enable_html5', false ),
@@ -916,11 +987,11 @@ class GFSettings {
 						'id'          => 'recpatcha',
 						'title'       => esc_html__( 'reCAPTCHA Settings', 'gravityforms' ),
 						'description' => sprintf(
-							'%s <strong>%s</strong> %s <a href="http://www.google.com/recaptcha/" target="_blank">%s</a>',
+							'%s <strong>%s</strong> %s <a href="https://www.google.com/recaptcha/admin/create" target="_blank">%s</a>',
 							esc_html__( 'Gravity Forms integrates with reCAPTCHA, a free CAPTCHA service that uses an advanced risk analysis engine and adaptive challenges to keep automated software from engaging in abusive activities on your site. ', 'gravityforms' ),
 							esc_html__( 'Please note, only v2 keys are supported and checkbox keys are not compatible with invisible reCAPTCHA.', 'gravityforms' ),
 							esc_html__( 'These settings are required only if you decide to use the reCAPTCHA field.', 'gravityforms' ),
-							esc_html__( 'Read more about reCAPTCHA.', 'gravityforms' )
+							esc_html__( 'Get your reCAPTCHA Keys.', 'gravityforms' )
 						),
 						'class'       => 'gform-settings-panel--full',
 						'fields'      => array(

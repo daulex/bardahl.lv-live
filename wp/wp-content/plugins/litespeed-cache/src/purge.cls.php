@@ -610,6 +610,7 @@ class Purge extends Base {
 
 		$this->purge_url( $_SERVER[ 'HTTP_REFERER' ] );
 
+		do_action( 'litespeed_purged_front', $_SERVER['HTTP_REFERER'] );
 		wp_redirect( $_SERVER[ 'HTTP_REFERER' ] );
 		exit();
 	}
@@ -1144,8 +1145,11 @@ class Purge extends Base {
 
 		global $wp_widget_factory;
 		// recent_posts
-		if ( ! is_null( $wp_widget_factory->widgets['WP_Widget_Recent_Posts'] ) ) {
-			$purge_tags[] = Tag::TYPE_WIDGET . $wp_widget_factory->widgets['WP_Widget_Recent_Posts']->id;
+		$recent_posts = isset( $wp_widget_factory->widgets['WP_Widget_Recent_Posts'] )
+			? $wp_widget_factory->widgets['WP_Widget_Recent_Posts']
+			: null;
+		if ( ! is_null( $recent_posts ) ) {
+			$purge_tags[] = Tag::TYPE_WIDGET . $recent_posts->id;
 		}
 
 		// get adjacent posts id as related post tag

@@ -20,6 +20,15 @@ class GFCommon {
 	private static $plugins;
 	private static $license_info;
 
+	/**
+	 * An array of event start times set by GFCommon::timer_start().
+	 *
+	 * @since 2.7.1
+	 *
+	 * @var float[]
+	 */
+	private static $start_times = array();
+
 	// deprecated; set to GFForms::$version in GFForms::init() for backwards compat
 	public static $version = null;
 
@@ -2099,6 +2108,7 @@ class GFCommon {
 			return;
 		}
 
+		GFCommon::timer_start( __METHOD__ );
 		GFCommon::log_debug( __METHOD__ . "(): Processing notifications for {$event} event for entry #{$entry_id}: " . print_r( $notification_ids, true ) . "\n(only active/applicable notifications are sent)" );
 
 		foreach ( $notification_ids as $notification_id ) {
@@ -2134,6 +2144,7 @@ class GFCommon {
 			self::send_notification( $notification, $form, $lead, $data );
 		}
 
+		GFCommon::log_debug( __METHOD__ . sprintf( '(): Sending notifications for entry (#%d) completed in %F seconds.', $entry_id, GFCommon::timer_end( __METHOD__ ) ) );
 	}
 
 	public static function send_form_submission_notifications( $form, $lead ) {
@@ -2208,8 +2219,8 @@ class GFCommon {
 		$entry_id = rgar( $entry, 'id' );
 
 		$to    = str_replace( ' ', '', $to );
-		$bcc   = str_replace( ' ', '', $bcc );
-		$cc    = str_replace( ' ', '', $cc );
+		$bcc   = $bcc ? str_replace( ' ', '', $bcc ) : '';
+		$cc    = $cc ? str_replace( ' ', '', $cc ) : '';
 
 		if ( ! GFCommon::is_valid_email( $from ) ) {
 			$from = get_bloginfo( 'admin_email' );
@@ -2838,7 +2849,9 @@ Content-Type: text/html;
 	 * @return string Returns the support URL.
 	 */
 	public static function get_support_url() {
-		return self::get_environment_setting( 'support_url' );
+		$env_handler = GFForms::get_service_container()->get( Gravity_Forms\Gravity_Forms\Environment_Config\GF_Environment_Config_Service_Provider::GF_ENVIRONMENT_CONFIG_HANDLER );
+
+		return $env_handler->get_support_url();
 	}
 
 	/**
@@ -2848,7 +2861,7 @@ Content-Type: text/html;
 	 *
 	 * @param string $name The env variable name (without the "gf_env_" prefix. i.e. support_url).
 	 *
-	 * @return string Returns the environmentment variable.
+	 * @return string Returns the environment variable.
 	 */
 	public static function get_environment_setting( $name ) {
 		$env_handler = GFForms::get_service_container()->get( Gravity_Forms\Gravity_Forms\Environment_Config\GF_Environment_Config_Service_Provider::GF_ENVIRONMENT_CONFIG_HANDLER );
@@ -4439,6 +4452,7 @@ Content-Type: text/html;
 			}
 		}
 
+		self::timer_start( __METHOD__ );
 		$is_spam = false;
 
 		if ( self::akismet_enabled( $form_id ) ) {
@@ -4448,8 +4462,9 @@ Content-Type: text/html;
 			self::set_spam_filter( $form_id, __( 'Akismet Spam Filter', 'gravityforms' ), '' );
 		}
 
-		if ( has_filter( 'gform_entry_is_spam' ) || has_filter( "gform_entry_is_spam_{$form_id}" ) ) {
-
+		$gform_entry_is_spam_args = array( 'gform_entry_is_spam', $form_id );
+		if ( gf_has_filter( $gform_entry_is_spam_args ) ) {
+			GFCommon::log_debug( __METHOD__ . '(): Executing functions hooked to gform_entry_is_spam.' );
 			/**
 			 * Allows submissions to be flagged as spam by custom methods.
 			 *
@@ -4460,19 +4475,15 @@ Content-Type: text/html;
 			 * @param array $form    The form currently being processed.
 			 * @param array $entry   The entry currently being processed.
 			 */
-			$is_spam = gf_apply_filters( array( 'gform_entry_is_spam', $form_id ), $is_spam, $form, $entry );
+			$is_spam = gf_apply_filters( $gform_entry_is_spam_args, $is_spam, $form, $entry );
 			self::log_debug( __METHOD__ . '(): Result from gform_entry_is_spam filter: ' . json_encode( $is_spam ) );
-
 		}
-
-
-
-		$log_is_spam = $is_spam ? 'Yes' : 'No';
-		self::log_debug( __METHOD__ . "(): Is submission considered spam? {$log_is_spam}." );
 
 		if ( $use_cache ) {
 			GFFormDisplay::$submission[ $form_id ]['is_spam'] = $is_spam;
 		}
+
+		GFCommon::log_debug( __METHOD__ . sprintf( '(): Spam checks completed in %F seconds. Is submission considered spam? %s.', GFCommon::timer_end( __METHOD__ ), $is_spam ? 'Yes' : 'No' ) );
 
 		return $is_spam;
 	}
@@ -5728,7 +5739,7 @@ Content-Type: text/html;
 	 *
 	 * @since 2.5
 	 *
-	 * @return bool
+	 * @return void
 	 */
 	public static function find_admin_notices() {
 		if ( ! GFForms::is_gravity_page() ) {
@@ -5736,30 +5747,35 @@ Content-Type: text/html;
 		}
 
 		global $wp_filter;
-		$notices         = $wp_filter['admin_notices']->callbacks;
-		$network_notices = array();
-		if ( rgar( $wp_filter, 'network_admin_notices' ) ) {
-			$network_notices = $wp_filter['network_admin_notices']->callbacks;
-		}
 
-		$all_notices = array_replace( $notices, $network_notices );
+		$hooks = array(
+			'admin_notices',
+			'network_admin_notices',
+		);
 
-		$has_non_gf_notices = false;
-		foreach ( $all_notices as $priority => $notice ) {
-			foreach ( $notice as $name => $callback ) {
-				if ( ! is_callable( $callback['function'] ) ) {
-					continue;
-				}
+		foreach ( $hooks as $hook ) {
+			if ( empty( $wp_filter[ $hook ] ) || ! is_array( $wp_filter[ $hook ]->callbacks ) ) {
+				continue;
+			}
 
-				ob_start();
-				call_user_func( $callback['function'] );
-				$content = ob_get_clean();
+			$callbacks = $wp_filter[ $hook ]->callbacks;
 
-				if ( strpos( $content, 'gf-notice' ) == false ) {
-					remove_action( 'admin_notices', $name, $priority );
-					remove_action( 'network_admin_notices', $name, $priority );
+			foreach ( $callbacks as $priority => $notice ) {
+				foreach ( $notice as $name => $callback ) {
+					if ( ! is_callable( $callback['function'] ) ) {
+						continue;
+					}
+
+					ob_start();
+					call_user_func( $callback['function'] );
+					$content = ob_get_clean();
+
+					if ( strpos( $content, 'gf-notice' ) == false ) {
+						remove_action( $hook, $name, $priority );
+					}
 				}
 			}
+
 		}
 	}
 
@@ -7350,27 +7366,48 @@ Content-Type: text/html;
 	 * @return string
 	 */
 	public static function get_db_version() {
-		global $wpdb;
+		static $version;
 
-		$ver = $wpdb->get_var( 'SELECT version();' );
+		if ( empty( $version ) ) {
+			$version = preg_replace( '/[^0-9.].*/', '', self::get_dbms_version() );
+		}
 
-		return preg_replace( '/[^0-9.].*/', '', $ver );
+		return $version;
 	}
 
 	/**
-	 * Return current database management system
+	 * Return current database management system.
 	 *
 	 * @since 2.5
 	 *
 	 * @return string either MySQL or MariaDB
 	 */
 	public static function get_dbms_type() {
-		global $wpdb;
+		static $type;
 
-		$ver = $wpdb->get_var( 'SELECT version();' );
+		if ( empty( $type ) ) {
+			$type = strpos( strtolower( self::get_dbms_version() ), 'mariadb' ) ? 'MariaDB' : 'MySQL';
+		}
 
-		return strpos( strtolower( $ver ), 'mariadb' ) ? 'MariaDB' : 'MySQL';
+		return $type;
+	}
 
+	/**
+	 * Returns the raw value from a SELECT version() db query.
+	 *
+	 * @since 2.7.1
+	 *
+	 * @return string The version number or the version number and system type.
+	 */
+	public static function get_dbms_version() {
+		static $value;
+
+		if ( empty( $value ) ) {
+			global $wpdb;
+			$value = $wpdb->get_var( 'SELECT version();' );
+		}
+
+		return $value;
 	}
 
 	/**
@@ -7536,33 +7573,125 @@ Content-Type: text/html;
 		$default_settings = \GFForms::get_service_container()->get( \Gravity_Forms\Gravity_Forms\Form_Display\GF_Form_Display_Service_Provider::BLOCK_STYLES_DEFAULTS );
 		$applied_settings = wp_parse_args( $block_settings, $default_settings );
 
+		// Set up the inside control primary color used by default to be user-friendly
+		// for forms which have not been updated or saved by users.
+		$inside_control_primary_value = $applied_settings['inputPrimaryColor'] === '' ? $applied_settings['buttonPrimaryBackgroundColor'] : $applied_settings['inputPrimaryColor'];
+
 		return array(
-			'primary'   => array(
+			'primary'                => array(
 				'color'              => $applied_settings['buttonPrimaryBackgroundColor'],
 				'color-rgb'          => self::darken_color( $applied_settings['buttonPrimaryBackgroundColor'], 0, 'rgb' ),
 				'color-contrast'     => $applied_settings['buttonPrimaryColor'],
 				'color-contrast-rgb' => self::darken_color( $applied_settings['buttonPrimaryColor'], 0, 'rgb' ),
-				'color-shade'        => self::darken_color( $applied_settings['buttonPrimaryBackgroundColor'], 10 ),
+				'color-darker'       => self::darken_color( $applied_settings['buttonPrimaryBackgroundColor'], 10 ),
+				'color-lighter'      => self::lighten_color( $applied_settings['buttonPrimaryBackgroundColor'], 10 ),
 			),
-			'secondary' => array(
+			'secondary'              => array(
 				'color'              => $applied_settings['inputBackgroundColor'],
 				'color-rgb'          => self::darken_color( $applied_settings['inputBackgroundColor'], 0, 'rgb' ),
 				'color-contrast'     => $applied_settings['inputColor'],
 				'color-contrast-rgb' => self::darken_color( $applied_settings['inputColor'], 0, 'rgb' ),
-				'color-shade'        => self::darken_color( $applied_settings['inputBackgroundColor'], 2 ),
+				'color-darker'       => self::darken_color( $applied_settings['inputBackgroundColor'], 2 ),
+				'color-lighter'      => self::lighten_color( $applied_settings['inputBackgroundColor'], 2 ),
 			),
-			'light'     => array(
-				'color'       => 'rgba(' . implode( ', ', self::darken_color( $applied_settings['labelColor'], 0, 'rgb' ) ) . ', 0.1)',
-				'color-shade' => 'rgba(' . implode( ', ', self::darken_color( $applied_settings['inputBorderColor'], 0, 'rgb' ) ) . ', 0.35)',
-				'color-tint'  => self::darken_color( $applied_settings['inputBackgroundColor'], 2 ),
+			'outside-control-light'  => array(
+				'color'         => 'rgba(' . implode( ', ', self::darken_color( $applied_settings['labelColor'], 0, 'rgb' ) ) . ', 0.1)',
+				'color-rgb'     => self::darken_color( $applied_settings['labelColor'], 0, 'rgb' ),
+				'color-darker'  => 'rgba(' . implode( ', ', self::darken_color( $applied_settings['inputBorderColor'], 0, 'rgb' ) ) . ', 0.35)',
+				'color-lighter' => self::darken_color( $applied_settings['inputBackgroundColor'], 2 ),
 			),
-			'dark'      => array(
-				'color'       => $applied_settings['descriptionColor'],
-				'color-rgb'   => self::darken_color( $applied_settings['descriptionColor'], 0, 'rgb' ),
-				'color-shade' => $applied_settings['inputColor'],
-				'color-tint'  => 'rgba(' . implode( ', ', self::darken_color( $applied_settings['inputColor'], 0, 'rgb' ) ) . ', 0.65)',
+			'outside-control-dark'   => array(
+				'color'         => $applied_settings['descriptionColor'],
+				'color-rgb'     => self::darken_color( $applied_settings['descriptionColor'], 0, 'rgb' ),
+				'color-darker'  => $applied_settings['inputColor'],
+				'color-lighter' => 'rgba(' . implode( ', ', self::darken_color( $applied_settings['inputColor'], 0, 'rgb' ) ) . ', 0.65)',
+			),
+			'inside-control'         => array(
+				'color'              => $applied_settings['inputBackgroundColor'],
+				'color-rgb'          => self::darken_color( $applied_settings['inputBackgroundColor'], 0, 'rgb' ),
+				'color-contrast'     => $applied_settings['inputColor'],
+				'color-contrast-rgb' => self::darken_color( $applied_settings['inputColor'], 0, 'rgb' ),
+				'color-darker'       => self::darken_color( $applied_settings['inputBackgroundColor'], 2 ),
+				'color-lighter'      => self::lighten_color( $applied_settings['inputBackgroundColor'], 2 ),
+			),
+			'inside-control-primary' => array(
+				'color'              => $inside_control_primary_value,
+				'color-rgb'          => self::darken_color( $inside_control_primary_value, 0, 'rgb' ),
+				'color-contrast'     => self::is_dark_color( $inside_control_primary_value ) ? '#fff' : '#112337',
+				'color-contrast-rgb' => self::is_dark_color( $inside_control_primary_value ) ? self::darken_color( '#fff', 0, 'rgb' ) : self::darken_color( '#112337', 0, 'rgb' ),
+				'color-darker'       => self::darken_color( $inside_control_primary_value, 10 ),
+				'color-lighter'      => self::lighten_color( $inside_control_primary_value, 10 ),
+			),
+			'inside-control-light'   => array(
+				'color'         => 'rgba(' . implode( ', ', self::darken_color( $applied_settings['labelColor'], 0, 'rgb' ) ) . ', 0.1)',
+				'color-rgb'     => self::darken_color( $applied_settings['labelColor'], 0, 'rgb' ),
+				'color-darker'  => 'rgba(' . implode( ', ', self::darken_color( $applied_settings['inputBorderColor'], 0, 'rgb' ) ) . ', 0.35)',
+				'color-lighter' => self::darken_color( $applied_settings['inputBackgroundColor'], 2 ),
+			),
+			'inside-control-dark'    => array(
+				'color'         => $applied_settings['descriptionColor'],
+				'color-rgb'     => self::darken_color( $applied_settings['descriptionColor'], 0, 'rgb' ),
+				'color-darker'  => $applied_settings['inputColor'],
+				'color-lighter' => 'rgba(' . implode( ', ', self::darken_color( $applied_settings['inputColor'], 0, 'rgb' ) ) . ', 0.65)',
 			),
 		);
+	}
+
+	/**
+	 * Stashes the start time of the specified event.
+	 *
+	 * @since 2.7.1
+	 *
+	 * @param string $event The event being timed.
+	 *
+	 * @return void
+	 */
+	public static function timer_start( $event ) {
+		self::$start_times[ $event ] = microtime( true );
+	}
+
+	/**
+	 * Returns the number of seconds that have elapsed since the start time was stashed for the specified event.
+	 *
+	 * @since 2.7.1
+	 *
+	 * @param string $event The event being timed.
+	 *
+	 * @return int|float
+	 */
+	public static function timer_end( $event ) {
+		if ( empty( self::$start_times[ $event ] ) ) {
+			return 0;
+		}
+
+		return ( microtime( true ) - self::$start_times[ $event ] );
+	}
+
+	/**
+	 * Maintains a semipersistent record of the 3 most recent events for the specified hook.
+	 *
+	 * @since 2.7.1
+	 *
+	 * @param string $hook The cron hook name.
+	 */
+	public static function record_cron_event( $hook ) {
+		if ( ! defined( 'DOING_CRON' ) || ! DOING_CRON ) {
+			return;
+		}
+
+		$events = GFCache::get( GFCache::KEY_CRON_EVENTS );
+		if ( ! is_array( $events ) ) {
+			$events = array();
+		}
+
+		if ( empty( $events[ $hook ] ) || ! is_array( $events[ $hook ] ) ) {
+			$events[ $hook ] = array( time() );
+		} else {
+			array_unshift( $events[ $hook ], time() );
+			array_splice( $events[ $hook ], 3 );
+		}
+
+		GFCache::set( GFCache::KEY_CRON_EVENTS, $events, true );
 	}
 
 }
@@ -7622,6 +7751,9 @@ class GFCategoryWalker extends Walker {
  *
  */
 class GFCache {
+
+	const KEY_CRON_EVENTS = 'cron_events_log';
+
 	private static $_transient_prefix = 'GFCache_';
 	private static $_cache = array();
 
