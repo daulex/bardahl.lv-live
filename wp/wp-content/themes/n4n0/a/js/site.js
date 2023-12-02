@@ -34,6 +34,13 @@ jQuery(document).ready(function($) {
 		window.location.hash = $(this).attr("href");
 	});
 
+	// if(window.location.hash){
+	// 	// console.log(window.location.hash);
+	// 	setTimeout(function(){
+	// 		// $("a[href="+window.location.hash+"]").trigger("click");
+	// 	},310);
+	// }
+
 	$(".product-category:eq(0)").slideDown(300);
 
 	$(".checkout-delivery-option").on("click", function(e){
@@ -75,7 +82,7 @@ jQuery(document).ready(function($) {
 	  });
 	});
 
-	if(window.location.hash && window.location.hash !== "#" && window.location.hash !== "#products-page"){
+	if(window.location.hash){
 		$container.isotope({ filter: window.location.hash.substring(1) });
 
 		var filterCount = window.location.hash.split(".").length-1;

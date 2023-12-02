@@ -7,6 +7,9 @@
 	if(have_posts()): while(have_posts()): the_post();
 
 		$source = get_product_source($post->ID);
+
+		
+	
 ?>
 <div id="product" class="container">
 	<div class="row" id="product-wrap">

@@ -30,7 +30,7 @@
 <header>
   <div id="header-innner" class="container">
     <div id="header-inner">
-      <a href="<?php bloginfo('url'); echo "/".get_lang(); ?>" id="header-logo"><img src="<?php echo get_template_directory_uri(); ?>/a/i/logo-bardahl.svg" alt="<?php echo get_ui_text('logo'); ?>" width="176" height="123"></a>
+      <a href="<?php bloginfo('url'); echo "/".get_lang(); ?>" id="header-logo"><img src="<?php echo get_template_directory_uri(); ?>/a/i/logo-bardahl.svg" alt="<?php echo get_ui_text('logo'); ?>"></a>
     </div>
     <div id="header-innner-flex">
       
