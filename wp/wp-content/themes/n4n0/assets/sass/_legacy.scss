@@ -1424,8 +1424,10 @@ $carousel_height: 20rem;
         top:0;
         left:0;
         color: #f00;
+        font-weight: bold;
         font-style: italic;
         font-size: 12px;
+        z-index: 1;
       }
 			img{
 				max-width: 80%;
