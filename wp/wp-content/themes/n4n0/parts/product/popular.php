@@ -1,0 +1,1 @@
+<span class="popular"><?php echo get_ui_text("popular_product"); ?> ⭐️</span>

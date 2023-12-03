@@ -343,6 +343,43 @@
                     "parent_repeater": "field_656b74a81133b"
                 }
             ]
+        },
+        {
+            "key": "field_656c5d822bcaf",
+            "label": "Settings",
+            "name": "",
+            "aria-label": "",
+            "type": "tab",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placement": "top",
+            "endpoint": 0
+        },
+        {
+            "key": "field_656c5d8b2bcb0",
+            "label": "Popular",
+            "name": "popular",
+            "aria-label": "",
+            "type": "true_false",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "message": "check to mark product as popular",
+            "default_value": 0,
+            "ui": 0,
+            "ui_on_text": "",
+            "ui_off_text": ""
         }
     ],
     "location": [
@@ -363,5 +400,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1701541082
+    "modified": 1701600666
 }

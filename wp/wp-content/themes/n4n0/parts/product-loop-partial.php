@@ -13,6 +13,8 @@
     // $product_type = 
     // $vehicle_type = 
 
+    $is_popular = get_field("popular", $source);
+
     $product_type = get_field("product_type", $source);
     if(!$product_type) $product_type = kg_get_tax($source, "product-type", "slug");
     $vehicle_type = get_field("vehicle_type", $source);
@@ -26,7 +28,11 @@
 <div class="<?php echo $loop_class; ?> <?php echo $product_type." ".$vehicle_type; ?>" data-filter="type-<?php echo $product_type; ?>">
   <a href="<?php echo get_permalink($pid); ?>">
     
-    
+    <?php 
+      if($is_popular):
+        get_template_part("parts/product/popular");
+      endif; 
+    ?>
     <div class="img-container">
         <img src="<?php echo $img_url; ?>" alt="<?php echo $pt; ?>">
     </div>

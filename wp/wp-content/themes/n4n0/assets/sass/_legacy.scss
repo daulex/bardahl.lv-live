@@ -714,6 +714,13 @@ $carousel_height: 20rem;
 	.name{
 		font-size: 30px;
 	}
+  .popular{
+    
+    color: #f00;
+    font-style: italic;
+    font-size: 12px;
+    
+  }
 }
 #product-pic{
 	img{
@@ -1412,6 +1419,14 @@ $carousel_height: 20rem;
 			&:hover{
 				opacity: 1;
 			}
+      .popular{
+        position: absolute;
+        top:0;
+        left:0;
+        color: #f00;
+        font-style: italic;
+        font-size: 12px;
+      }
 			img{
 				max-width: 80%;
 				margin-left: auto;

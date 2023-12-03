@@ -17,6 +17,7 @@ function get_ui_text($name, $lang = "auto"){
         "specifications" => "Pielaides",
         "description" => "Apraksts",
         "reviews" => "Atsauksmes",
+        "popular_product" => "Populāra prece",
         "official_distributor" => "Oficiālāis Bardahl pārstāvis Latvijā",
         "address" => "Rīga, Mūkusalas iela 72b",
         "phone" => "+371 20431406",

@@ -7,6 +7,7 @@ $fields = get_fields($post->ID);
 
 $fields['data_sheets'] = true;
 $fields['reviews'] = true;
+$is_popular = $fields['popular'] ?? false;
 
 ?>
 <div id="product" class="container">
@@ -22,6 +23,12 @@ $fields['reviews'] = true;
 				<h1 id="product-heading">
 					<span class="type"><?php echo kg_get_tax($post->ID, "product-type")." ".kg_get_tax($post->ID, "product-application"); ?></span>
 					<span class="name"><?php the_title(); ?></span>
+
+          <?php 
+            if($is_popular):
+              get_template_part("parts/product/popular");
+            endif; 
+          ?>
 				</h1>
 
 
