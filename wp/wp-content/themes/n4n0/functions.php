@@ -15,6 +15,14 @@
             wp_enqueue_style( 'app', get_template_directory_uri() . '/dist/css/app.min.css', array(), $csstime );
         endif;
 
+        if(get_post_type() === "product"):
+          $handle = "/dist/js/tabcordion.min.js";
+          if ( file_exists( get_template_directory() . $handle ) ) :
+                $jstime = filemtime( get_template_directory() . $handle );
+                wp_enqueue_script( 'app', get_template_directory_uri() . $handle, array(), $jstime, true );
+          endif;
+        endif;
+
         // // App script
         // if ( file_exists( get_template_directory() . '/dist/js/app.min.js' ) ) :
         //     $jstime = filemtime( get_template_directory() . '/dist/js/app.min.js' );

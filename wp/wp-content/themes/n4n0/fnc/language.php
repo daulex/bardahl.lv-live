@@ -2,9 +2,11 @@
 
 function get_ui_text($name, $lang = "auto"){
     // lang
-    if($lang == "auto"){
-      $lang = get_lang() === "ru" ? "ru" : "lv";
-    }
+    // if($lang == "auto"){
+    //   $lang = get_lang() === "ru" ? "ru" : "lv";
+    // }
+
+    $lang = "lv";
 
     $name = str_replace(" ", "_", $name);
 
@@ -12,6 +14,9 @@ function get_ui_text($name, $lang = "auto"){
     // text
     $text = array(
       "lv" => array(
+        "specifications" => "Pielaides",
+        "description" => "Apraksts",
+        "reviews" => "Atsauksmes",
         "official_distributor" => "Oficiālāis Bardahl pārstāvis Latvijā",
         "address" => "Rīga, Mūkusalas iela 72b",
         "phone" => "+371 20431406",

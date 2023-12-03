@@ -1,2 +1,2 @@
-'use strict';
-console.log( 'This is the guidelines test file.' );
+// 'use strict';
+// console.log( 'This is the guidelines test file.' );

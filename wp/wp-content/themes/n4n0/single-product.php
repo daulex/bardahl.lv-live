@@ -5,8 +5,8 @@ if(have_posts()): while(have_posts()): the_post();
 
 $fields = get_fields($post->ID);
 
-$technical_data_sheet = $fields['tds'] ?? false;
-$safety_data_sheet = $fields['msds'] ?? false;
+$fields['data_sheets'] = true;
+$fields['reviews'] = true;
 
 ?>
 <div id="product" class="container">
@@ -80,19 +80,13 @@ $safety_data_sheet = $fields['msds'] ?? false;
 					<?php $i++; endforeach; ?>
 				</div>
 
-				<div class="the-content" id="product-content">
-					<?php the_field("main_content") ?>
-				</div>
+        <?php 
+          get_template_part(
+            "parts/product/tabcordion", "", 
+            array('fields' => $fields)); 
+          ?>
 
-                <?php if($technical_data_sheet || $safety_data_sheet): ?>
-                <div id="data-sheets">
-                    <h4><?php echo get_ui_text("data_sheets"); ?></h4>
-                    <ul>
-                        <?php echo get_data_sheet_link($technical_data_sheet, 'technical_data_sheet'); ?>
-                        <?php echo get_data_sheet_link($safety_data_sheet, 'safety_data_sheet'); ?>
-                    </ul>
-                </div>
-                <?php endif; ?>
+                
 
 			</div>
 		</div>

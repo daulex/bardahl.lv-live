@@ -21,6 +21,7 @@
             "max": 0,
             "layout": "table",
             "button_label": "Add price",
+            "rows_per_page": 20,
             "sub_fields": [
                 {
                     "key": "field_5b38abc1fb2aa",
@@ -148,8 +149,7 @@
                     "maxlength": "",
                     "parent_repeater": "field_5b38a638a4b6c"
                 }
-            ],
-            "rows_per_page": 20
+            ]
         },
         {
             "key": "field_5b38a550a4b67",
@@ -281,6 +281,68 @@
             "min_size": "",
             "max_size": "",
             "mime_types": ""
+        },
+        {
+            "key": "field_656b73d81133a",
+            "label": "Specifications",
+            "name": "",
+            "aria-label": "",
+            "type": "tab",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placement": "top",
+            "endpoint": 0
+        },
+        {
+            "key": "field_656b74a81133b",
+            "label": "Specifications",
+            "name": "specifications",
+            "aria-label": "",
+            "type": "repeater",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "layout": "table",
+            "pagination": 0,
+            "min": 0,
+            "max": 0,
+            "collapsed": "",
+            "button_label": "Add Row",
+            "rows_per_page": 20,
+            "sub_fields": [
+                {
+                    "key": "field_656b74ba1133c",
+                    "label": "Specification",
+                    "name": "specification",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 1,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_656b74a81133b"
+                }
+            ]
         }
     ],
     "location": [
@@ -301,5 +363,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1675965850
+    "modified": 1701541082
 }

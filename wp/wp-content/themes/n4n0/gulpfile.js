@@ -32,6 +32,7 @@ const
 		js : {
 			src 	: [
 				'./assets/js/app.js',
+				'./assets/js/tabcordion.js',
 				'./blocks/**/*.js'
 			],
 			dist 	: './dist/js'
