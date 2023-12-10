@@ -132,11 +132,18 @@
         display: flex;
         flex-wrap: wrap;
         gap: 20px;
+        @include media-breakpoint-down(lg){
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+        }
         .product{
             width: 190px;
             position: relative;
             border-right: 1px solid $bYellow;
             border-bottom: 1px solid $bYellow;
+            @include media-breakpoint-down(lg){
+                width: auto;
+            }
             .product-image{
                 width: 100%;
                 height: 190px;
