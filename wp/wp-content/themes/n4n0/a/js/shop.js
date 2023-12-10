@@ -1,23 +1,22 @@
 jQuery(document).ready(function($) {
 	$('input, textarea').placeholder();
 	// check if cart cookie exists
-		if(typeof Cookies.get('cart_sum') !== "undefined"){
-			$(".cart-val").text(Cookies.get('cart_sum'));
-		}
+    if(typeof Cookies.get('cart_sum') !== "undefined"){
+        $(".cart-val").text(Cookies.get('cart_sum'));
+    }
     setInterval(function(){
         if(typeof Cookies.get('cart_sum') !== "undefined"){
             if($(".cart-val").text() !== Cookies.get('cart_sum')){
                 $(".cart-val").text(Cookies.get('cart_sum'));
-                
+            }else if($(".cart-val").text() === "1"){
+                $.get("/wp-json/bardahl/v1/cart/get-sum", function(data){
+                    data = JSON.parse(data);
+                    $(".cart-val,#checkout-total span").text( data.sum );
+                    Cookies.set("cart_sum", data.sum, {path: '/'});
+                });
             }
         }
-    }, 3000);
-// if on cart page check cart total
-	if($("#checkout-total span:visible").length){
-		var new_sum = $("#checkout-total span").text();
-		$(".cart-val").text(new_sum);
-		Cookies.set("cart_sum", new_sum, {path: '/'});
-	}
+    }, 2000);
 
 // Cart cookie management
 	function add_to_cart(x,sum){
@@ -78,23 +77,9 @@ jQuery(document).ready(function($) {
 
 		var new_sum = Number(parseFloat(sum).toFixed(2))+Number(parseFloat(cv).toFixed(2));
 		var new_sum = new_sum.toFixed(2);
+        
 		Cookies.set("cart_sum", new_sum, {path: '/'});
 		$(".cart-val").text(new_sum);
-
-
-
-		// facebook add to cart reg
-		if($("#product-heading .name").length){
-			var tmp = x.split("|");
-
-			// fbq('track', 'AddToCart', {
-			//       content_name: $("#product-heading .name").text(), 
-			//       content_ids: [tmp[0]],
-			//       content_type: 'product',
-			//       value: sum,
-			//       currency: 'EUR' 
-			//     }); 
-		}
 
 	}
 
@@ -116,8 +101,6 @@ function rebuild_cart_cookie(){
 		var ready = items.join(",");
 		Cookies.set("cart", ready, {path: '/'});
 	}
-
-	
 }
 
 
@@ -125,7 +108,6 @@ function rebuild_cart_cookie(){
 
 
 // Product page
-
 	$(".to-cart").on("click", function(e){
 		e.preventDefault();
 		var id = $(this).attr("data-pid");
@@ -146,8 +128,17 @@ function rebuild_cart_cookie(){
 		$(this).prev().val("1");
 	});
 
-
-
+    $(".to-cart-upsale").on("click", function(e){
+        e.preventDefault();
+        var id = $(this).attr("data-pid");
+        var price = $(this).attr("data-price");
+        var pn = "1";
+        var qty = "1";
+        var sum = Number(price).toFixed(2);
+        
+        var to_add = id+"|"+qty+"|"+pn;
+        add_to_cart(to_add, sum);
+    });
 
 
 // Checkout page
@@ -178,41 +169,14 @@ function rebuild_cart_cookie(){
 		}else{
 			
 			var delivery_type = $(".checkout-delivery-option.selected").attr("data-do");
-			var cart_val = $(".cart-val").text();
-			var cc = Cookies.get('cart').split(",");
-
-			// Check if new product exists
-			// var fbContentIds = [];
-
-			// $.each(cc, function(a,b){
-			// 	var row = b.split("|");
-			// 	fbContentIds.push(row[0]);
-			// });
-
-
-			// fbq('track', 'AddToCart', {
-		 //      content_name: "Cart value", 
-		 //      content_ids: fbContentIds,
-		 //      content_type: 'product',
-		 //      value: cart_val,
-		 //      currency: 'EUR' 
-		 //    }); 
-		  
-		  if(typeof gtag === typeof undefined){}else{
-            gtag('event', 'conversion', {
-                'send_to': 'AW-1046291819/UZqaCKDu63sQ68r08gM',
-                'value': cart_val,
-                'currency': 'EUR',
-                'transaction_id': ''
-            });
-		  }
+		
 		  
 		  
 			var pd = $("#checkout-form").serialize();
 			pd = pd+"&delivery_type="+delivery_type;
 			$.get("/?cart=process", pd, function(){});
 
-			// Cookies.remove("cart", {path: '/'});
+			Cookies.remove("cart", {path: '/'});
 			Cookies.remove("cart_sum", {path: '/'});
 
 			$("#checkout-table").slideUp("fast");

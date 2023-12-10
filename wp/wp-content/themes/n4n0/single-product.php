@@ -88,10 +88,16 @@ $is_popular = $fields['popular'] ?? false;
 				</div>
 
         <?php 
-          get_template_part(
+        
+        get_template_part(
             "parts/product/tabcordion", "", 
             array('fields' => $fields)); 
-          ?>
+            
+        get_template_part(
+            "parts/product/frequently-bought-with", null, 
+            array('fields' => $fields)); 
+
+        ?>
 
                 
 

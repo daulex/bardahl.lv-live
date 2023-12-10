@@ -43,6 +43,7 @@
 							$price = $ci["price"];
 							$row_sum = $price['price']*$ci['qty'];
 							$sum += $row_sum;
+                            
 					?>
 					<div class="checkout-row" data-id="<?php echo $ci['id']; ?>" data-pbm="<?php echo $ci['pricebm']; ?>">
 						<div class="product-name"><a href="<?php echo get_permalink($ci['id']); ?>"><?php echo $ci['title']; ?></a> <?php echo $price['quantity']; ?></div>
@@ -51,7 +52,7 @@
 							<span class="times">x</span>
 							<div class="product-qty"><input type="text" value="<?php echo $ci['qty']; ?>" data-cache="<?php echo $ci['qty']; ?>"></div>
 							<span class="equals">=</span>
-							<div class="product-price-total">&euro;<span><?php echo $row_sum; ?></span></div>
+							<div class="product-price-total">&euro;<span><?php echo number_format($row_sum, 2, '.', ""); ?></span></div>
 							<a href="#" class="cart-remove"><i class="fa fa-times"></i></a>
 						</div>
 					</div>
@@ -63,7 +64,7 @@
 
 
 					
-					<div id="checkout-total"><?php echo get_ui_text("cart_sum"); ?> &euro;<span><?php echo isset($sum) ?? number_format($sum, 2); ?></span></div>
+					<div id="checkout-total"><?php echo get_ui_text("cart_sum"); ?> &euro;<span><?php echo number_format($sum, 2, '.', ""); ?></span></div>
 
 
 					<h2 id="checkout-delivery"><?php echo get_ui_text("cart_delivery"); ?></h2>
@@ -119,7 +120,7 @@
                             <div class="notice"><?php echo get_ui_text("form_promo_expl"); ?></div>
                         </div>
 					</div>
-					<input type="hidden" name="cart_val" value="<?=isset($_COOKIE['cart'])??$_COOKIE['cart']; ?>">
+					<input type="hidden" name="cart_val" value="<?=isset($_COOKIE['cart_sum'])??$_COOKIE['cart_sum']; ?>">
 					<input type="submit" id="checkout-submit-hidden" value="<?php echo get_ui_text("order"); ?>">
 					<a href="#" id="checkout-submit"><i class="fa fa-check"></i> <?php echo get_ui_text("order"); ?></a>
 
@@ -131,28 +132,7 @@
 
 </div>
 </div>
-<?php
-if(false):
-	// if($cart):
-		
-		$fbIds = array();
 
-		foreach($cart as $ci):
-			array_push($fbIds, $ci['id']);
-		endforeach;
-
-		$fbIdsString = "'".implode("','", $fbIds)."'";
-?>
-<script>
-
-	fbq('track', 'InitiateCheckout', { 
-	    content_type: 'product',
-	    content_ids: [<?php echo $fbIdsString; ?>],
-	    value: <?php echo number_format($sum, 2); ?>,
-	    currency: 'EUR'
-	});
-</script>
-<?php endif; ?>
 <?php
 	endwhile; endif;
 

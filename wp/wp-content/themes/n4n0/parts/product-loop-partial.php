@@ -19,7 +19,6 @@
 
     $prices = get_field("prices", $source);
     $i = 1;
-    $id = $source;
     $title = get_the_title($source);
 ?>
 <div class="<?php echo $loop_class; ?> <?php echo $product_type." ".$vehicle_type; ?>" data-filter="type-<?php echo $product_type; ?>">
@@ -51,7 +50,21 @@
         <?php endforeach; ?>
         </div>
 
+        
+        <?php 
+        if(isset($upsale_to_cart) && $upsale_to_cart):
+            get_template_part(
+                "parts/product/to-cart-upsale", 
+                null, 
+                array(
+                    "pid" => $source,
+                    "price" => $prices[0]['price']
+                    )
+                );
+        else:
+        ?>
         <div class="buy"><?php echo get_ui_text("buy"); ?> <i class="fa fa-chevron-right"></i></div>
+        <?php endif; ?>
     </div>
   </a>
 </div>
