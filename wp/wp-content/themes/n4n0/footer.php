@@ -1,9 +1,3 @@
-<?php
-if(is_front_page() || $post && $post->ID == 9):
-    get_template_part("parts/news");
-endif;
-?>
-
 <div id="footer-container">
 	<div class="container">
 		<div id="fc-1" class="col-sm-4 footer-col">

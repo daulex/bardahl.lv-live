@@ -1,8 +1,9 @@
 <?php
-$products = get_field("products_to_show", $post->ID);
+$products = get_field("products_to_show");
+
 if($products):
-  feat_heading(get_field("popular_heading", $post->ID), true);
-  
+  feat_heading(get_field("popular_heading"), true);
+
 ?>
 <div id="popular_products" class="container">
 <div class="row">

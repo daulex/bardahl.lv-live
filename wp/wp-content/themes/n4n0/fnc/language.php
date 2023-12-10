@@ -28,6 +28,7 @@ function get_ui_text($name, $lang = "auto"){
         "oils" => "Eļļas",
         "oiladditive" => "Eļļas piedeva",
         "oil_additive" => "Eļļas piedeva",
+        "oil-additive" => "Eļļas piedeva",
         "oiladditives" => "Eļļas piedevas",
         "oil_additives" => "Eļļas piedevas",
         "fueladditive" => "Degvielas piedeva",

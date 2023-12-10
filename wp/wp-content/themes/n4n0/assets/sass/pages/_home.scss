@@ -49,3 +49,28 @@
         }
     }
 }
+
+.home #popular_products{
+    .product{
+        position: relative;
+    }
+    .row .product a .popular{
+        left:50%;
+        transform: translateX(-50%);
+    }
+    .buy{
+        background: $bYellow;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .details__description{
+        .type{
+            display: block;
+            font-size: 11px;
+            line-height: 1;
+        }
+        .name{
+            font-weight: bold;
+        }
+    }
+}

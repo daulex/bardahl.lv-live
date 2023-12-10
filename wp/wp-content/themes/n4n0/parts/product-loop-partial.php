@@ -9,9 +9,6 @@
         $imgSizes = $img['sizes'];
         $img_url = $imgSizes['medium'];
     }
-    
-    // $product_type = 
-    // $vehicle_type = 
 
     $is_popular = get_field("popular", $source);
 
