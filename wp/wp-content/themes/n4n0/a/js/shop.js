@@ -176,7 +176,7 @@ function rebuild_cart_cookie(){
 			pd = pd+"&delivery_type="+delivery_type;
 			$.get("/?cart=process", pd, function(){});
 
-			Cookies.remove("cart", {path: '/'});
+			// Cookies.remove("cart", {path: '/'});
 			Cookies.remove("cart_sum", {path: '/'});
 
 			$("#checkout-table").slideUp("fast");
