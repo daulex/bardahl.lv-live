@@ -31,5 +31,6 @@ add_action( 'rest_api_init', function () {
     register_rest_route( 'bardahl/v1', '/cart/get-sum', array(
         'methods' => 'GET',
         'callback' => 'api_cart_get_sum',
+        'permission_callback' => '__return_true'
     ) );
 } );
