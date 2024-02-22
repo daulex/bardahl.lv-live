@@ -15,13 +15,13 @@ function api_csv() {
     $products = get_posts($args);
 
     // Write CSV header
-    fputcsv($output, array('ean', 'brand', 'name', 'price', 'currency', 'bulk price', 'specification', 'grouping', 'stock', 'photo', 'short desc', 'long desc'));
+    fputcsv($output, array('ean', 'brand', 'name', 'price', 'currency', 'bulk price', 'specification', 'grouping', 'stock', 'photo', 'short desc', 'long desc', 'url'));
 
     foreach($products as $product):
         $id = $product->ID;
         $name = $product->post_title;
         $prices = get_field("prices", $id);
-
+        $url = get_permalink($id);
         $img = get_field("image", $id);
         if(!$img){
             $src = wp_get_attachment_image_src(get_post_thumbnail_id($id), 'large', false, '');
@@ -31,9 +31,12 @@ function api_csv() {
             $img_url = $imgSizes['large'];
         }
 
-        $main_content = get_field("main_content", $id);
+        $main_content = get_field("english_content", $id);
+        $main_content = strlen($main_content) > 1 ? $main_content : get_field("main_content", $id);
+
         $excerpt = truncate_field($main_content, 100);
         $main_content = htmlspecialchars($main_content);
+
         $specifications = get_field("specifications", $id);
         $spec = array();
         if($specifications):
@@ -56,7 +59,7 @@ function api_csv() {
             $quantity = $row["quantity"];
             
             // Write CSV row
-            fputcsv($output, array($ean, 'Bardahl', "Bardahl $name - $quantity", $price, 'eur', $bulk_price, $spec, $grouping, $in_stock, $img_url, $excerpt, $main_content));
+            fputcsv($output, array($ean, 'Bardahl', "Bardahl $name - $quantity", $price, 'eur', $bulk_price, $spec, $grouping, $in_stock, $img_url, $excerpt, $main_content, $url));
         endforeach;
     endforeach;
 

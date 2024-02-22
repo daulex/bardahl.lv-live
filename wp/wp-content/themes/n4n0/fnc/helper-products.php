@@ -32,7 +32,7 @@ function kg_render_tabs($data = false, $to_render = "buttons") {
 
         ?>
 
-      <section id="tab-<?=$tab;?>" class="ootb-tabcordion--entry" data-title="<?=$tab;?>" tabindex="-1" role="tabpanel" aria-labelledby="<?=$tab;?>">
+      <section id="tab-<?=$tab;?>" class="ootb-tabcordion--entry" data-title="<?=get_ui_text($tab);?>" tabindex="-1" role="tabpanel" aria-labelledby="<?=$tab;?>">
           <div class="ootb-tabcordion--entry-container">
             <div class="ootb-tabcordion--entry-content">
               <?php
