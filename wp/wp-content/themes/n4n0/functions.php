@@ -7,6 +7,7 @@
 	include 'fnc/language.php';
     include 'fnc/helper-products.php';
     include 'fnc/api-endpoints/get-cart-sum.php';
+    include 'fnc/api-endpoints/get-csv.php';
 
     add_action( 'wp_enqueue_scripts', function() {
 

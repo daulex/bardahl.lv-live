@@ -189,6 +189,26 @@
             "delay": 0
         },
         {
+            "key": "field_65d5feb953d33",
+            "label": "English content",
+            "name": "english_content",
+            "aria-label": "",
+            "type": "wysiwyg",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "tabs": "all",
+            "toolbar": "full",
+            "media_upload": 1,
+            "delay": 0
+        },
+        {
             "key": "field_5b38a5cda4b69",
             "label": "Russian content",
             "name": "",
@@ -439,5 +459,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1702202920
+    "modified": 1708523201
 }
