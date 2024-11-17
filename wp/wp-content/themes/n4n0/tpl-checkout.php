@@ -64,7 +64,7 @@
 
 
 					
-					<div id="checkout-total"><?php echo get_ui_text("cart_sum"); ?> &euro;<span><?php echo number_format($sum, 2, '.', ""); ?></span></div>
+					<div id="checkout-total"><?php echo get_ui_text("cart_sum"); ?> &euro;<span><?php echo number_format($sum ? $sum : 0, 2, '.', ""); ?></span></div>
 
 
 					<h2 id="checkout-delivery"><?php echo get_ui_text("cart_delivery"); ?></h2>

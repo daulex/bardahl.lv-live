@@ -1,0 +1,12 @@
+[07-Nov-2024 17:54:14 Europe/Riga] PHP Fatal error:  Uncaught Error: Call to undefined function get_header() in /home3/bardahl1/public_html/wp-content/themes/n4n0/404.php:2
+Stack trace:
+#0 {main}
+  thrown in /home3/bardahl1/public_html/wp-content/themes/n4n0/404.php on line 2
+[08-Nov-2024 17:15:56 Europe/Riga] PHP Fatal error:  Uncaught Error: Call to undefined function get_header() in /home3/bardahl1/public_html/wp-content/themes/n4n0/404.php:2
+Stack trace:
+#0 {main}
+  thrown in /home3/bardahl1/public_html/wp-content/themes/n4n0/404.php on line 2
+[08-Nov-2024 17:16:03 Europe/Riga] PHP Fatal error:  Uncaught Error: Call to undefined function get_header() in /home3/bardahl1/public_html/wp-content/themes/n4n0/404.php:2
+Stack trace:
+#0 {main}
+  thrown in /home3/bardahl1/public_html/wp-content/themes/n4n0/404.php on line 2
