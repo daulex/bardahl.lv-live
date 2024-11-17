@@ -614,6 +614,10 @@ class Meta_Tags_Context extends Abstract_Presentation {
 			return $this->image->get_attachment_image_url( $this->main_image_id, 'full' );
 		}
 
+		if ( \wp_is_serving_rest_request() ) {
+			return $this->get_main_image_url_for_rest_request();
+		}
+
 		if ( ! \is_singular() ) {
 			return null;
 		}
@@ -627,11 +631,15 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	}
 
 	/**
-	 * Gets the main image ID.
+	 * Generates the main image ID.
 	 *
 	 * @return int|null The main image ID.
 	 */
 	public function generate_main_image_id() {
+		if ( \wp_is_serving_rest_request() ) {
+			return $this->get_main_image_id_for_rest_request();
+		}
+
 		switch ( true ) {
 			case \is_singular():
 				return $this->get_singular_post_image( $this->id );
@@ -711,6 +719,44 @@ class Meta_Tags_Context extends Abstract_Presentation {
 		}
 
 		return null;
+	}
+
+	/**
+	 * Gets the main image ID for REST requests.
+	 *
+	 * @return int|null The main image ID.
+	 */
+	private function get_main_image_id_for_rest_request() {
+		switch ( $this->page_type ) {
+			case 'Post_Type':
+				if ( $this->post instanceof WP_Post ) {
+					return $this->get_singular_post_image( $this->post->ID );
+				}
+				return null;
+			default:
+				return null;
+		}
+	}
+
+	/**
+	 * Gets the main image URL for REST requests.
+	 *
+	 * @return string|null The main image URL.
+	 */
+	private function get_main_image_url_for_rest_request() {
+		switch ( $this->page_type ) {
+			case 'Post_Type':
+				if ( $this->post instanceof WP_Post ) {
+					$url = $this->image->get_post_content_image( $this->post->ID );
+					if ( $url === '' ) {
+						return null;
+					}
+					return $url;
+				}
+				return null;
+			default:
+				return null;
+		}
 	}
 }
 

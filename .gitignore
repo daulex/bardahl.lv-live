@@ -34,3 +34,6 @@ wp/license.txt
 .code-workspace
 *.code-workspace
 wp/.htaccess.bk
+
+wp/wp-content/themes/n4n0/error_log
+wp/wp-content/themes/n4n0/salidzini.xml
