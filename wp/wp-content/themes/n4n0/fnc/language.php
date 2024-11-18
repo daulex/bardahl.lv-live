@@ -1,12 +1,8 @@
 <?php
 
-function get_ui_text($name, $lang = "auto"){
-    // lang
-    // if($lang == "auto"){
-    //   $lang = get_lang() === "ru" ? "ru" : "lv";
-    // }
-
-    $lang = "lv";
+function get_ui_text($name, $lang = "lv"){
+    
+    $lang = defined('ICL_LANGUAGE_CODE') ? ICL_LANGUAGE_CODE : $lang;
 
     $name = str_replace(" ", "_", $name);
 
