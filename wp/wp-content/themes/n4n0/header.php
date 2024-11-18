@@ -4,15 +4,9 @@
     <meta charset="<?php bloginfo('charset'); ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <?php if (is_single() || is_page()) : ?>
-        <meta name="description" content="<?php echo esc_attr(get_the_excerpt()); ?>">
-    <?php endif; ?>
     <link rel="profile" href="https://gmpg.org/xfn/11">
     <link rel="pingback" href="<?php bloginfo('pingback_url'); ?>">
 
-    <title><?php wp_title('|', true, 'right'); ?></title>
-    
-    
     <!-- Ensure WPML properly handles language-related links -->
     <?php if (function_exists('wpml_head')): ?>
         <?php wpml_head(); ?>

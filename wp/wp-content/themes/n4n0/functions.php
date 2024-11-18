@@ -9,6 +9,9 @@
     include 'fnc/api-endpoints/get-cart-sum.php';
     include 'fnc/api-endpoints/get-csv.php';
 
+    add_theme_support('title-tag');
+
+
     add_action( 'wp_enqueue_scripts', function() {
 
         // App style
