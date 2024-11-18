@@ -7,17 +7,6 @@ jQuery(document).ready(function($) {
 	});
 
 
-	if( $("body").hasClass("single-product") ){
-		$("#lang-switch a").on("click", function(e){
-			e.preventDefault();
-
-			var setLang = $(this).attr("id").split("-")[1];
-			Cookies.set("lang", setLang, {path: '/'});
-			location.reload();
-		});
-		
-	}
-
 
 
 

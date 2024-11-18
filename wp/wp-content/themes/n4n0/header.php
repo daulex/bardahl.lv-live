@@ -1,19 +1,32 @@
 <!doctype html>
-<html lang="lv">
+<html <?php language_attributes(); ?>>
 <head>
+    <meta charset="<?php bloginfo('charset'); ?>">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <?php if (is_single() || is_page()) : ?>
+        <meta name="description" content="<?php echo esc_attr(get_the_excerpt()); ?>">
+    <?php endif; ?>
+    <link rel="profile" href="https://gmpg.org/xfn/11">
+    <link rel="pingback" href="<?php bloginfo('pingback_url'); ?>">
 
-	<meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE" />
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-
-	<title><?php wp_title(' | ', true, 'right'); ?></title>
+    <title><?php wp_title('|', true, 'right'); ?></title>
     
+    
+    <!-- Ensure WPML properly handles language-related links -->
+    <?php if (function_exists('wpml_head')): ?>
+        <?php wpml_head(); ?>
+    <?php endif; ?>
+    
+    <!-- WordPress and plugin-generated header elements -->
+    <?php wp_head(); ?>
+
     <link rel="stylesheet" href="<?php bloginfo('template_url'); ?>/a/plugins/pushy/css/pushy.css" />
     <link rel="stylesheet" href="<?php bloginfo('template_url'); ?>/a/css/fontawesome/css/font-awesome.min.css?v=150918" />
 	<?php wp_head(); ?>
-
 </head>
-<body <?php body_class(); ?> data-lang="<?php echo get_lang() === 'ru' ? "ru" : "lv"; ?>">
+<body <?php body_class(); ?> data-lang="lv">
+
 
 <nav class="pushy pushy-left" data-focus="#first-link">
   <div class="pushy-content">
