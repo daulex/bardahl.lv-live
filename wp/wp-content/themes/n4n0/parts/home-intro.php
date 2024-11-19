@@ -9,8 +9,9 @@
             $img = $imgSizes['home-intro'];
         }
     }
+    $link = defined('ICL_LANGUAGE_CODE') && ICL_LANGUAGE_CODE == 'lv' ? '/produkti' : '/ru/продукты';
 ?>
 <div class="home-intro" <?php if($img){ echo ' style="background-image: url('.$img.')"';} ?>>
     <h1><?=get_ui_text("official_distributor")?></h1>
-    <a href="/produkti" class="btn"><?php echo get_ui_text("products"); ?></a>
+    <a href="<?=$link?>" class="btn"><?php echo get_ui_text("products"); ?></a>
 </div>

@@ -1,5 +1,5 @@
 <?php
-    $source = get_product_source($pid);
+    $source = apply_filters('wpml_object_id', $pid, 'product', true, 'lv');
 
     $img = get_field("image", $source);
     if(!$img){

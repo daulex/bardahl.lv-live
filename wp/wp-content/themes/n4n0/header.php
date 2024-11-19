@@ -15,7 +15,7 @@
     <!-- WordPress and plugin-generated header elements -->
     <?php wp_head(); ?>
 
-    <link rel="stylesheet" href="<?php bloginfo('template_url'); ?>/a/plugins/pushy/css/pushy.css" />
+    <link rel="stylesheet" href="<?php bloginfo('template_url'); ?>/a/plugins/pushy/css/pushy.css?v=213" />
     <link rel="stylesheet" href="<?php bloginfo('template_url'); ?>/a/css/fontawesome/css/font-awesome.min.css?v=150918" />
 	<?php wp_head(); ?>
 </head>
@@ -51,7 +51,7 @@
           ?>
           <span class="hin-1-address"><?php echo get_ui_text('address'); ?></span>
           <span class="hin-1-phone"><?php echo get_ui_text('phone'); ?></span>
-
+          <?php do_action( 'wpml_language_switcher'); ?>
         </div>
         <div id="hin-2">
         

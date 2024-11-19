@@ -18,10 +18,12 @@
 					$cart_empty = '';
 					$checkout_table = ' style="display:none;"';
 				endif;
+
+                $link = defined('ICL_LANGUAGE_CODE') && ICL_LANGUAGE_CODE == 'lv' ? '/produkti' : '/ru/продукты';
 			?>
 				<div id="cart-empty"<?php echo $cart_empty; ?>>
 					<h2><?php echo get_ui_text("cart_empty"); ?></h2>
-					<p><a href="<?php echo get_permalink(get_ui_text('product_page')); ?>"><?php echo get_ui_text("products"); ?> &rarr;</a></p>
+					<p><a href="<?php echo $link; ?>"><?php echo get_ui_text("products"); ?> &rarr;</a></p>
 				</div>
 
 				<div id="checkout-complete">

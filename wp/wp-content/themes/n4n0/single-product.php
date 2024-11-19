@@ -32,11 +32,11 @@ $fields['content'] = get_field($content_container, $source);
 					<span class="type"><?php echo kg_get_tax($source, "product-type")." ".kg_get_tax($source, "product-application"); ?></span>
 					<span class="name"><?php the_title(); ?></span>
 
-          <?php 
-            if($is_popular):
-              get_template_part("parts/product/popular");
-            endif; 
-          ?>
+                    <?php 
+                        if($is_popular):
+                        get_template_part("parts/product/popular");
+                        endif; 
+                    ?>
 				</h1>
 
 
@@ -61,7 +61,6 @@ $fields['content'] = get_field($content_container, $source);
                         $prices = get_field('prices', $source);
                         
 						$i = 1;
-						$id = $source;
 						if($prices): foreach($prices as $price):
 							$fpr = $price['price'];
 					?>
@@ -86,10 +85,16 @@ $fields['content'] = get_field($content_container, $source);
                                 class="to-cart" 
                                 data-ean="<?php echo $price['ean']; ?>" 
                                 data-pn="<?php echo $i; ?>" 
-                                data-pid="<?php echo $id; ?>"
+                                data-pid="<?php echo $source; ?>"
                                 data-price="<?php echo $price['price']; ?>"
                                 >
-                                <i class="fa fa-shopping-cart"></i> <?php echo get_ui_text("to_cart"); ?>
+                                <span class="add-cta">
+                                    <i class="fa fa-shopping-cart"></i> 
+                                    <?php echo get_ui_text("to_cart"); ?>
+                                </span>
+                                <span class="add-success">
+                                    <i class="fa fa-check"></i> 
+                                </span>
                             </button>
 						</div>
 						<div class="product-sku"><?php echo $price['sku']; ?></div>
@@ -97,7 +102,7 @@ $fields['content'] = get_field($content_container, $source);
 					<?php $i++; endforeach; endif; ?>
 				</div>
 
-        <?php 
+    <?php 
         
         get_template_part(
             "parts/product/tabcordion", "", 
@@ -107,7 +112,7 @@ $fields['content'] = get_field($content_container, $source);
             "parts/product/frequently-bought-with", null, 
             array('fields' => $fields)); 
 
-        ?>
+    ?>
 
                 
 

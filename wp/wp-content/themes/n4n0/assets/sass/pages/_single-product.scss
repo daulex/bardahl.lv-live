@@ -5,7 +5,7 @@
     display: block;
     overflow: hidden;
     padding: 20px 0;
-  
+    max-width: 600px;
     .heading-row{
       border-bottom: 1px solid #eee;
     }
@@ -77,6 +77,12 @@
           padding-left: 5px;
           padding-right: 5px;
           cursor: pointer;
+          transition: background-color 0.4s;
+          position: relative;
+          &.clicked{
+            background-color: #f1c40f;
+            color: #333;
+          }
         }
       }
     }
@@ -182,8 +188,44 @@
                 background-color: green;
                 color: white;
                 padding: 5px 10px;
+                position: relative;
+                transition: background-color 0.4s;
+                
+                &:active{
+                    opacity: .8;
+                }
+                &.clicked{
+                    background-color: $bYellow;
+                    color: $bDark;
+                    span.add-cta{
+                        opacity: 0;
+                    }
+                    span.add-success{
+                        display: block;
+                        visibility: visible;
+                    }
+                }
             }
         }
 
+    }
+}
+
+span.add-success{
+    display:block;
+    visibility: hidden;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: opacity 0.4s;
+}
+.clicked{
+    span.add-cta{
+        opacity: 0;
+    }
+    span.add-success{
+        display: block;
+        visibility: visible;
     }
 }

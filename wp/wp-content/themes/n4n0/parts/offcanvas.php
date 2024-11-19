@@ -6,6 +6,7 @@
   $menu = get_lang() == "ru" ? "pre-top-ru" : "pre-top-lv";
   wp_nav_menu("&menu=".$menu."&container=&menu_id=pre-menu-top-offcanvas");
 ?>
+<?php do_action( 'wpml_language_switcher'); ?>
 <div id="offcanvas-contact">
 <?php get_template_part("parts/x-contact"); ?>
 </div>

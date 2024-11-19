@@ -110,10 +110,11 @@ function rebuild_cart_cookie(){
 // Product page
 	$(".to-cart").on("click", function(e){
 		e.preventDefault();
-		var id = $(this).attr("data-pid");
-		var pn = $(this).attr("data-pn");
-		var qty = isNaN(parseInt($(this).prev().val())) ? "1" : $(this).prev().val();
-		var price = $(this).attr("data-price");
+        var thisCache = $(this);
+		var id = thisCache.attr("data-pid");
+		var pn = thisCache.attr("data-pn");
+		var qty = isNaN(parseInt(thisCache.prev().val())) ? "1" : thisCache.prev().val();
+		var price = thisCache.attr("data-price");
 		var sum = Number(parseFloat(price).toFixed(2))*Number(parseInt(qty));
 		var sum = sum.toFixed(2);
 		
@@ -125,19 +126,29 @@ function rebuild_cart_cookie(){
 			add_to_cart(to_add, sum);
 		}
 
-		$(this).prev().val("1");
+		thisCache.prev().val("1");
+        thisCache.addClass("clicked");
+        setTimeout(function(){
+            thisCache.removeClass("clicked");
+        }, 2000);
 	});
 
     $(".to-cart-upsale").on("click", function(e){
         e.preventDefault();
-        var id = $(this).attr("data-pid");
-        var price = $(this).attr("data-price");
+        var thisCache = $(this);
+        var id = thisCache.attr("data-pid");
+        var price = thisCache.attr("data-price");
         var pn = "1";
         var qty = "1";
         var sum = Number(price).toFixed(2);
         
         var to_add = id+"|"+qty+"|"+pn;
         add_to_cart(to_add, sum);
+
+        thisCache.addClass("clicked");
+        setTimeout(function(){
+            thisCache.removeClass("clicked");
+        }, 2000);
     });
 
 

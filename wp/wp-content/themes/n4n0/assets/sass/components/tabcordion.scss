@@ -42,6 +42,7 @@ $darken__level: 6;
       .ootb-tabcordion--entry-content {
         opacity: 0;
         transition: opacity 400ms ease-in-out;
+        max-width: 600px;
       }
     }
 

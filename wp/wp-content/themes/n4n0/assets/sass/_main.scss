@@ -27,3 +27,33 @@ img {
 #page-heading{
     margin: 0 0 2rem !important;
 }
+body .pushy{
+    width: 220px;
+}
+
+#hi-navs #hin-1 .wpml-ls.wpml-ls-legacy-list-horizontal{
+    padding: 0;
+    margin: 0;
+    ul li{
+        margin: 0;
+        padding: 0;
+        a{
+            margin: 0;
+            padding: 0;
+        }
+    }
+}
+
+.pushy-content .wpml-ls.wpml-ls-legacy-list-horizontal{
+    padding: 0;
+    margin: 0;
+    ul li{
+        margin: 0;
+        padding: 0;
+        a{
+            padding: .3rem 1rem;
+            font-size: .8rem;
+            margin: 0;
+        }
+    }
+}

@@ -192,6 +192,7 @@ header{
 			align-items: center;
 		}
 		.menu-btn{
+            color: $bDark;
 			background-color: transparent;
 			border: 0;
 			&:focus,&:active{
@@ -540,6 +541,12 @@ $carousel_height: 20rem;
 
 #products-page{
 	padding-top: 20px;
+    margin: 0 auto;
+    @include media-breakpoint-down(md){
+        margin-left: 1rem;
+        margin-right: 1rem;
+    }
+
 }
 .the-content{
 	overflow: hidden;
