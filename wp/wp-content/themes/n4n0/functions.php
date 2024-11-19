@@ -11,7 +11,6 @@
 
     add_theme_support('title-tag');
 
-
     add_action( 'wp_enqueue_scripts', function() {
 
         // App style
@@ -327,3 +326,20 @@ function remove_footer_admin(){
 	echo '<span id="footer-thankyou">&nbsp;</span>';
 }
 add_filter('admin_footer_text', 'remove_footer_admin');
+
+
+
+
+
+
+
+add_filter('acf/prepare_field', 'my_custom_acf_field_group_visibility');
+
+function my_custom_acf_field_group_visibility($field) {
+    $current_language = defined('ICL_LANGUAGE_CODE') ? ICL_LANGUAGE_CODE : 'lv';
+
+    if($field['parent'] === 'group_5b389f3dcd0bc' && $current_language != 'lv')
+        return false;
+
+    return $field;
+}

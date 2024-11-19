@@ -3,25 +3,33 @@
 get_header();
 if(have_posts()): while(have_posts()): the_post();
 
-$fields = get_fields($post->ID);
+$source = apply_filters('wpml_object_id', get_the_ID(), get_post_type(), true, 'lv');
+
+$fields = get_fields($source);
 
 $fields['data_sheets'] = true;
-$fields['reviews'] = true;
+$fields['reviews'] = false;
 $is_popular = $fields['popular'] ?? false;
+
+$language = defined('ICL_LANGUAGE_CODE') ? ICL_LANGUAGE_CODE : 'lv';
+
+$content_container = $language === "lv" ? "main_content" : "main_content_ru";
+$fields['content'] = get_field($content_container, $source);
+
 
 ?>
 <div id="product" class="container">
 	<div class="row" id="product-wrap">
 		
 		<div class="col-sm-3" id="product-pic">
-			<img src="<?php echo get_the_post_thumbnail_url($post->ID, "large"); ?>" alt="<?php echo $post->post_title; ?>">
+			<img src="<?php echo get_the_post_thumbnail_url($source, "large"); ?>" alt="<?php echo $post->post_title; ?>">
 		</div>
 
 		<div class="col-sm-9">
 			<div id="product-inner">
 				
 				<h1 id="product-heading">
-					<span class="type"><?php echo kg_get_tax($post->ID, "product-type")." ".kg_get_tax($post->ID, "product-application"); ?></span>
+					<span class="type"><?php echo kg_get_tax($source, "product-type")." ".kg_get_tax($source, "product-application"); ?></span>
 					<span class="name"><?php the_title(); ?></span>
 
           <?php 
@@ -49,10 +57,12 @@ $is_popular = $fields['popular'] ?? false;
 						<div class="product-sku">SKU</div>
 					</div>
 					<?php
-						$prices = get_field("prices");
+
+                        $prices = get_field('prices', $source);
+                        
 						$i = 1;
-						$id = $post->ID;
-						foreach($prices as $price):
+						$id = $source;
+						if($prices): foreach($prices as $price):
 							$fpr = $price['price'];
 					?>
 					<div class="product-row">
@@ -84,7 +94,7 @@ $is_popular = $fields['popular'] ?? false;
 						</div>
 						<div class="product-sku"><?php echo $price['sku']; ?></div>
 					</div>
-					<?php $i++; endforeach; ?>
+					<?php $i++; endforeach; endif; ?>
 				</div>
 
         <?php 

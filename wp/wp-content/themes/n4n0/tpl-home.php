@@ -19,7 +19,7 @@
 
     <div class="row">
 		<div class="col-md-8">
-			<h1 id="home-description-heading"><?php echo get_field('welcome_title') ? get_field('welcome_title') : $post->post_title; ?></h1>
+			<h1 id="home-description-heading"><?php echo $post->post_title; ?></h1>
 			<div class="the-content">
 				<?php the_content(); ?>
 			</div>

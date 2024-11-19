@@ -166,7 +166,8 @@
                 "id": ""
             },
             "placement": "top",
-            "endpoint": 0
+            "endpoint": 0,
+            "selected": 0
         },
         {
             "key": "field_5b38a57ca4b68",
@@ -189,9 +190,9 @@
             "delay": 0
         },
         {
-            "key": "field_65d5feb953d33",
-            "label": "English content",
-            "name": "english_content",
+            "key": "field_5b38a5d8a4b6a",
+            "label": "Russian content",
+            "name": "main_content_ru",
             "aria-label": "",
             "type": "wysiwyg",
             "instructions": "",
@@ -203,40 +204,16 @@
                 "id": ""
             },
             "default_value": "",
+            "allow_in_bindings": 1,
             "tabs": "all",
             "toolbar": "full",
             "media_upload": 1,
             "delay": 0
         },
         {
-            "key": "field_5b38a5cda4b69",
-            "label": "Russian content",
-            "name": "",
-            "aria-label": "",
-            "type": "tab",
-            "instructions": "",
-            "required": 0,
-            "conditional_logic": [
-                [
-                    {
-                        "field": "field_5b38a57ca4b68",
-                        "operator": "==contains",
-                        "value": "uhdbbdqhbdqljhkb"
-                    }
-                ]
-            ],
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "placement": "top",
-            "endpoint": 0
-        },
-        {
-            "key": "field_5b38a5d8a4b6a",
-            "label": "Main content",
-            "name": "main_content_ru",
+            "key": "field_65d5feb953d33",
+            "label": "English content",
+            "name": "english_content",
             "aria-label": "",
             "type": "wysiwyg",
             "instructions": "",
@@ -268,7 +245,8 @@
                 "id": ""
             },
             "placement": "top",
-            "endpoint": 0
+            "endpoint": 0,
+            "selected": 0
         },
         {
             "key": "field_63e53582c55df",
@@ -325,7 +303,8 @@
                 "id": ""
             },
             "placement": "top",
-            "endpoint": 0
+            "endpoint": 0,
+            "selected": 0
         },
         {
             "key": "field_656b74a81133b",
@@ -387,7 +366,8 @@
                 "id": ""
             },
             "placement": "top",
-            "endpoint": 0
+            "endpoint": 0,
+            "selected": 0
         },
         {
             "key": "field_656c5d8b2bcb0",
@@ -459,5 +439,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1716808643
+    "modified": 1731939062
 }
