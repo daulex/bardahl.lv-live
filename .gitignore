@@ -24,6 +24,8 @@ wp/wp-content/themes/*/bower_components
 wp/wp-content/themes/*/package-lock.json
 wp/wp-content/themes/*/pnpm-lock.yaml
 
+wp/wp-content/languages/
+
 wp/wp-content/themes/*/dist
 
 wp/readme.html
