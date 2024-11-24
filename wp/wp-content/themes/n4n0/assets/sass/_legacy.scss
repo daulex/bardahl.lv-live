@@ -85,7 +85,7 @@ nav.pushy{
 }
 $logoWidth: 15rem;
 $logoWidthTablet: 10rem;
-$logoWidthMobile: 9rem;
+$logoWidthMobile: 7rem;
 header{
 	background: $bYellow;
 
@@ -161,9 +161,6 @@ header{
 
 		@media only screen and (max-width: 1000px) and (min-width: 620px){
 			justify-content: flex-end;
-			span{
-				margin-right: 1rem;
-			}
 			ul{
 				display: none;
 			}
@@ -181,7 +178,7 @@ header{
 		justify-content: space-between;
 		position: relative;
 		#cart-nav{
-
+            
 			color: $bDark;
 			
 			text-decoration: none;
@@ -190,6 +187,9 @@ header{
 			display: flex;
 			justify-content: center;
 			align-items: center;
+            i{
+                margin-right: 5px;
+            }
 		}
 		.menu-btn{
             color: $bDark;
@@ -260,7 +260,6 @@ header{
 		@media only screen and (max-width: 400px){
 			#cart-nav{
 				padding: .5rem;
-                margin-right: 1rem;
 			}
 			.menu-btn{
 				// font-size: .7rem;

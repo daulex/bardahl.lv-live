@@ -57,3 +57,26 @@ body .pushy{
         }
     }
 }
+
+
+
+#hi-navs #hin-2 .wpml-ls-legacy-list-horizontal{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-right: 0;
+    ul{
+        display: none;
+    }
+    @include media-breakpoint-down(md){
+    
+        ul{
+            display: block !important;
+            padding:0;
+            border:0;
+            li a{
+                padding: 0.5rem;
+            }
+        }
+    }
+}

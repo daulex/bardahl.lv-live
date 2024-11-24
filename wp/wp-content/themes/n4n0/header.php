@@ -54,6 +54,8 @@
           <?php do_action( 'wpml_language_switcher'); ?>
         </div>
         <div id="hin-2">
+
+            <?php do_action( 'wpml_language_switcher'); ?>
         
             <a href="<?php echo get_permalink(get_ui_text("advise_oil_page")); ?>" id="oil-request"><?php echo get_ui_text("advise_oil"); ?></a>
           
@@ -61,8 +63,11 @@
             $menu = get_lang() == "ru" ? "top-ru" : "top";
             wp_nav_menu("&menu=".$menu."&container=");
           ?>
-          <a href="<?php echo get_permalink(get_ui_text('cart_link')); ?>" id="cart-nav"><i class="fa fa-shopping-cart"></i> &nbsp; &euro;<span class="cart-val"><?php echo cart_sum(); ?></span></a>
-          <button class="menu-btn">&#9776; <span><?php echo get_ui_text('toggle_menu'); ?></span></button>
+          <a href="<?php echo get_permalink(get_ui_text('cart_link')); ?>" id="cart-nav">
+            <i class="fa fa-shopping-cart"></i>
+            <span class="euro">&euro;</span>
+            <span class="cart-val"><?php echo cart_sum(); ?></span></a>
+            <button class="menu-btn" title="<?php echo get_ui_text('toggle_menu'); ?>">&#9776;</button>
         </div>
       </div>
     </div>  
